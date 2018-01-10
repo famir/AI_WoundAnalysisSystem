@@ -1,0 +1,270 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @Styles.Render("~/Content/css")
+<script src="~/Content/js/jquery.min.js"></script>
+    <script src="~/Scripts/jqGrid/grid.locale-en.js"></script>
+    <script src="~/Scripts/jqGrid/jquery.jqGrid.js"></script>
+    <link href="~/Content/Theme/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/ui.jqgrid.css" rel="stylesheet" />
+    <script src="~/Scripts/GitecAlertMsg.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.min.js"></script>
+    <link href="~/Content/bootstrap-dialog.min.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        //$.noConflict();
+        $(document).ready(function () {
+
+
+
+                       @if (TempData["SucessAlert"] != null && TempData["SucessAlert"].ToString() == "1")
+        {
+            @:SuccesMessage("Saved successfully.", "Information");
+                        TempData.Remove("SucessAlert");
+        }
+        else if (TempData["SucessAlert"] != null && TempData["SucessAlert"].ToString() == "0")
+        {
+            @:ErrorMessage("Error while saving the records.", "Warning");
+                        TempData.Remove("SucessAlert");
+        }
+        else if (TempData["SucessAlert"] != null && TempData["SucessAlert"].ToString() == "2")
+        {
+            @:SuccesMessage("Updated successfully.", "Information");
+                        TempData.Remove("SucessAlert");
+        }
+        else if (TempData["SucessAlert"] != null && TempData["SucessAlert"].ToString() == "-1")
+        {
+            @:AlertMessage("User already exist.", "Information");
+                        TempData.Remove("SucessAlert");
+        }
+        else if (TempData["SucessAlert"] != null && TempData["SucessAlert"].ToString() == "-2")
+        {
+            @:SuccesMessage("Deleted successfully.", "Information");
+                        TempData.Remove("SucessAlert");
+         } else if (TempData["SucessAlert"] != null && TempData["SucessAlert"].ToString() == "-3")
+                       {
+             @:AlertMessage("Stunedennachweis details already added for this employee for this month.", "Information");
+         }
+       else if (TempData["SucessAlert"] != null && TempData["SucessAlert"].ToString() == "-4")
+                       {
+            @:SuccesMessage("Stunedennachweis details added successfully.", "Information");
+                       }
+        });
+    </script>
+
+
+
+
+</head>
+
+<body>
+
+    <div>
+
+        <ul class="nav nav-tabs">
+            <li id="liPatientList" class="active"><a data-toggle="tab" href="#patientList" onclick="LoadTab('tabPatientList')">Patient List</a></li>
+            <li id="liAddEditPatient"><a data-toggle="tab" class="disabled" href="#addEditPatient" id="lnkReplace">Replace Txt</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="patientList" class="tab-pane fade in active">
+                @*<div id="tabEmployeeList">
+
+                    </div>*@
+                <hr />
+                <div class="row">
+                    <div >
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <h4>Patient List</h4>
+                            </div>
+                            <div class="col-md-7">
+                            </div>
+                            <div class="col-md-2">
+
+
+                                <a class="btn btn-success" onclick="getRecord(0,'Add')"><i class="fa fa-plus"></i> Add New</a>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <table id="jqGrid"></table>
+
+                                <div id="jqGridPager">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="addEditPatient" class="tab-pane fade">
+                <div id="tabAddOrEditPatient">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#liAddEditPatient").hide();
+
+        //LoadTab('tabEmployeeList')
+    });
+
+            @*function LoadTab(tab) {
+
+            $("#" + tab).load('@Url.Action("EmployeeList", "EmployeeDashboard", new { Area = "Employee" })', function () {
+                });
+            }*@
+
+
+    $(function () {
+        $grid = $("#jqGrid").jqGrid({
+            url: '@Url.Action("GetPatientList", "Patient", new { Area = "Patient" })',
+            mtype: 'GET',
+            datatype: 'json',
+            colModel: [
+                { label: 'UserID', name: 'UserID', hidden: true,key:true  },
+              
+            { label: 'Full Name', name: 'FullName' },
+            { label: 'Email Address', name: 'EmailAddress' },
+            { label: 'Country', name: 'Country' },
+
+            //{ label: 'DOB', name: 'DOB',formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
+            {
+            label: ' ',
+            name: 'UserID',
+            formatter: buttonFormatter,
+            align: "center",
+            width: 60,
+            formatoptions: {
+            action: 'View'
+            }
+            }, {
+                label: ' ',
+                name: 'UserID',
+                formatter: buttonFormatter,
+                align: "center",
+                width: 60,
+                formatoptions: {
+                    action: 'Edit'
+                }
+            },
+
+            {
+                label: ' ',
+                name: 'UserID',
+                formatter: buttonFormatter,
+                align: "center",
+                width: 60,
+                formatoptions: {
+                    action: 'Delete'
+                }
+            }
+            ],
+            shrinkToFit: true,
+            loadonce: true,
+            pager: '#jqGridPager',
+            rowNum: 10,
+            rowList: [10, 20, 50],
+            viewrecords: true,
+            autowidth: true,
+            sortorder: 'asc',
+            //caption: "Employee List"
+            });
+            $("#jqGrid").jqGrid('navGrid', 'jqGridPager', { edit: false, add: false, delete: false });
+
+
+    });
+
+    function buttonFormatter(cellvalue, options, rowObject) {
+
+        var operation = options.colModel.formatoptions.action;
+
+        if (operation == "View") {
+            return ' <a class="btn btn-default" aria-label="View" onclick=\"getRecord(' + cellvalue + ',' + "\'" + operation + "\'" + ');\"><i class="fa fa-eye" title="View Record"  aria-hidden="true"></i> </a>';
+
+            //} else if (operation == "Add"){
+            //    return ' <a class="btn btn-default" aria-label="View" onclick=\"getRecord(' + cellvalue + ');\"><i class="fa fa-eye" aria-hidden="true"></i> </a>';
+        } else if (operation == "Edit") {
+            return ' <a class="btn btn-primary" aria-label="Edit" onclick=\"getRecord(' + cellvalue + ',' + "\'" + operation + "\'" + ');\"><i class="fa fa-pencil" title="Edit Record"  aria-hidden="true"></i> </a>';
+        } else if (operation == "Delete") {
+            return ' <a class="btn btn-danger" aria-label="Delete" onclick=\"getRecord(' + cellvalue + ',' + "\'" + operation + "\'" + ');\"><i class="fa fa-trash-o" title="Delete Record" aria-hidden="true"></i> </a>';
+        }
+
+    }
+
+    function getRecord(id, operation) {
+        if (operation != "Delete" ) {
+            $("#liAddEditPatient").show();
+            $("#liPatientList").removeClass('active')
+            $("#liAddEditPatient").addClass('active')
+
+            $("#patientList").removeClass(' in active')
+            $("#addEditPatient").addClass(' in active')
+
+        }
+
+
+        if (operation == "View") {
+
+            $("#lnkReplace").text(operation);
+                 $("#tabAddOrEditPatient").load('@Url.Action("AddOrEditPatient", "Patient", new { Area = "Patient" })', { id: id  }, function () {
+            });
+
+        }else if (operation == "Add") {
+            $("#lnkReplace").text(operation);
+                  $("#tabAddOrEditPatient").load('@Url.Action("AddOrEditPatient", "Patient", new { Area = "Patient" })', { id: id  }, function () {
+            });
+        }
+
+        else if (operation == "Edit") {
+            $("#lnkReplace").text(operation);
+            $("#tabAddOrEditPatient").load('@Url.Action("AddOrEditPatient", "Patient", new { Area = "Patient" })', { id: id  }, function () {
+            });
+        } else if (operation == "Delete") {
+
+            GetConfirm("Are you sure to remove this employee?", function () {
+                //$("#tbody_readings").find("#tr_readings-" + id).remove();
+
+                var dataToPost = { id: id };
+
+                $.ajax({
+                    url: '@Url.Action("DeletePatient", "Patient", new { Area = "Patient" })',
+                    type: "POST",
+                    data: JSON.stringify(dataToPost),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+
+                        if (result=="-1")
+                        {
+                                ErrorMessage("Error while deleting the records.", "Warning");
+
+                        } else {
+                            SuccesMessage("Deleted successfully.", "Information");
+                        }
+
+                    }
+                });
+
+            }, null);
+
+
+
+
+
+        }
+
+
+    }
+</script>

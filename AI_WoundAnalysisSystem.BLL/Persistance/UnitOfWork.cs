@@ -53,18 +53,7 @@ namespace AI_WoundAnalysisSystem.BLL.Persistance
                 return this.usersRepository;
             }
         }
-        public IRepository<Users> UserCount
-        {
-            get
-            {
-                if (this.usersRepository == null)
-                {
-                    this.usersRepository = new Repository<Users>(this.context);
-                }
 
-                return this.usersRepository;
-            }
-        }
         /// <summary>
         /// Gets Zeiterfassung details repository
         /// </summary>

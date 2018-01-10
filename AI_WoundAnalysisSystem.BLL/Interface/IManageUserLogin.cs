@@ -23,7 +23,13 @@ namespace AI_WoundAnalysisSystem.BLL.Interface
         /// <param name="password">pass word</param>
         /// <returns>returns integer</returns>
         Users AuthenticateTemp(string userName, string password);
-        int CountUser(int type);
+
+        /// <summary>
+        /// Get User Count 
+        /// </summary>
+        /// <returns>user count</returns>
+         int? GetUserCount();
+
         /// <summary>
         ///// Gets the user type
         ///// </summary>

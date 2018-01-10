@@ -14,7 +14,8 @@ namespace AI_WoundAnalysisSystem.BLL.Interface
         /// Gets the Users repository
         /// </summary>
         IRepository<Users> UsersRepository { get; }
-        IRepository<Users> UserCount { get; }
+
+
         /// <summary>
         /// Gets Zeiterfassung details repository
         /// </summary>
@@ -24,7 +25,6 @@ namespace AI_WoundAnalysisSystem.BLL.Interface
         /// Saves changes in the unit of work
         /// </summary>
         void Save();
-         
     }
 }
 

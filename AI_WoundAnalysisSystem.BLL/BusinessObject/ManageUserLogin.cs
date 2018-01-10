@@ -1,6 +1,8 @@
 ﻿using AI_WoundAnalysisSystem.BLL.Interface;
 using AI_WoundAnalysisSystem.BLL.Persistance;
 using AI_WoundAnalysisSystem.DTO;
+using AI_WoundAnalysisSystem.DTO.ViewModel;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AI_WoundAnalysisSystem.BLL.BusinessObject
@@ -50,7 +52,7 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
         /// <returns>returns UserID</returns>
         public int Authenticate(string userName, string password)
         {
-            var user = this.unitOfWork.UsersRepository.GetQuery(u => u.Username == userName && u.Password == password ).FirstOrDefault();
+            var user = this.unitOfWork.UsersRepository.GetQuery(u => u.Username == userName && u.Password == password).FirstOrDefault();
             if (user != null && user.UserID > 0)
             {
                 return user.UserID;
@@ -73,12 +75,16 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
 
             return user.FirstOrDefault();
         }
-        public int CountUser(int type)
-        { 
-            var user = this.unitOfWork.UserCount.GetQuery(u => u.UserRoleID== type);
 
-            return user.Count();
+        /// <summary>
+        /// Get User Count 
+        /// </summary>
+        /// <returns>user count</returns>
+        public int? GetUserCount()
+        {
+            return this.unitOfWork.UsersRepository.GetQuery(x => x.UserRoleID == 2).Count();
         }
+
 
         ///// <summary>
         ///// Gets the user type 

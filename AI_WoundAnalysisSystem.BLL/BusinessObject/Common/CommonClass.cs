@@ -27,6 +27,23 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject.Common
 
 
         /// <summary>
+        /// Gets or sets user role code
+        /// </summary>
+        public enum UserRole
+        {
+            /// <summary>
+            /// admin
+            /// </summary>
+            OPTR =1,
+
+            /// <summary>
+            /// employee
+            /// </summary>
+            EMPL
+        }
+
+
+        /// <summary>
         /// enum for months german
         /// </summary>
         public enum Month

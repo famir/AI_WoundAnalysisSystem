@@ -185,6 +185,19 @@
     <Content Include="Content\js\custom.js" />
     <Content Include="Content\js\jquery.easing.min.js" />
     <Content Include="Content\js\jquery.min.js" />
+    <Content Include="Content\Theme\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\Theme\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\Theme\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\Theme\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\Theme\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\Theme\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\Theme\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Theme\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\Theme\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\Theme\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\Theme\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\Theme\jquery-ui.min.css" />
+    <Content Include="Content\ui.jqgrid.css" />
     <Content Include="DashboardContent\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.min.css" />
     <Content Include="DashboardContent\bower_components\bootstrap-datepicker\dist\js\bootstrap-datepicker.min.js" />
     <Content Include="DashboardContent\bower_components\bootstrap-daterangepicker\daterangepicker.css" />
@@ -245,6 +258,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap-dialog.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -260,6 +274,9 @@
     <Content Include="Areas\Operator\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Operator\Views\Shared\_OperatorLayout.cshtml" />
     <Content Include="Areas\Operator\Views\Operator\Index.cshtml" />
+    <Content Include="Scripts\GitecAlertMsg.js" />
+    <Content Include="Scripts\jqGrid\grid.locale-en.js" />
+    <Content Include="Scripts\jqGrid\jquery.jqGrid.js" />
     <Content Include="Views\Login\LoginDetails.cshtml" />
     <Content Include="DashboardContent\bower_components\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="DashboardContent\bower_components\Ionicons\fonts\ionicons.woff" />
@@ -268,6 +285,7 @@
     <Content Include="DashboardContent\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="DashboardContent\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="DashboardContent\bower_components\Ionicons\fonts\ionicons.ttf" />
+    <Content Include="Areas\Operator\Views\Operator\TabPatientList.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

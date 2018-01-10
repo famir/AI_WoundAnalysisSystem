@@ -2,7 +2,11 @@
 
 <script src="~/Content/js/plugins/datepicker/moment.min.js"></script>
 <script src="~/Content/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
+<link href="~/Content/Site.css" rel="stylesheet" />
+
+@*<script src="~/Content/js/jquery.min.js"></script>
 <script language="javascript" type="text/javascript">
+  
     $(document).ready(function () {
 
         $('form').removeData('validator');
@@ -13,7 +17,7 @@
     });
 
 
-</script>
+</script>*@
 
 @using (@Html.BeginForm("LoginDetails", "Login", FormMethod.Post, new { @class = "smart-form client-form login-form login active", enctype = "multipart/form-data" }))
 {
@@ -41,14 +45,15 @@
                         <div class="form-group">
          
                         
-                            <label>Username<span class="mandatory">*</span></label>
+                           
+                            @Html.LabelFor(m => m.Username, new { @class = "mandatory" })
                             @Html.TextBoxFor(m => m.Username, new { Class = "form-control", Placeholder = "Enter Username" })
                             @Html.ValidationMessageFor(m => m.Username)
                         </div>
                         <div class="form-group">
                           
-
-                            <label>First Name<span class="mandatory">*</span></label>
+                            @Html.LabelFor(m=>m.Password,new { @class= "mandatory" })
+                    
                             @Html.PasswordFor(m => m.Password, new { Class = "form-control", Placeholder = "Enter Password" })
                             @Html.ValidationMessageFor(m => m.Password)
 
@@ -57,11 +62,11 @@
                         <div class="form-action">
                             @*<button type="submit" class="btn btn-form">Send Message</button>*@
 
-                            <a class="btn btn-cancel btn-sm" title="Cancel" href="#" >
+                            <a class="btn btn-cancel btn-sm" title="Cancel" href="#banner" >
                                 Cancel
                             </a>
-                            <button type="submit" class="btn btn-primary btn-sm" title="Save" id="btnSave">
-                                Save
+                            <button type="submit" class="btn btn-primary btn-sm" title="Login" id="btnLogin"href="#login" >
+                                Login
                             </button>
                         </div>
                     @*</form>*@
@@ -69,10 +74,10 @@
             </div>
         </div>
     </div>
+    <hr />
 
 }
 
-<script src="~/Content/js/jquery.min.js"></script>
 
 @*<script type="text/javascript">
     $(document).ready(function () {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AI_WoundAnalysisSystem.BLL.BusinessObject;
+using AI_WoundAnalysisSystem.BLL.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +12,7 @@ namespace AI_WoundAnalysisSystem.Controllers
     {
         public ActionResult Index()
         {
+
             return View();
         }
 
