@@ -1,0 +1,99 @@
+﻿@model AI_WoundAnalysisSystem.DTO.ViewModel.UserLoginVM
+
+<script src="~/Content/js/plugins/datepicker/moment.min.js"></script>
+<script src="~/Content/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+
+        $('form').removeData('validator');
+
+        $('form').removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse('form');
+      
+    });
+
+
+</script>
+
+@using (@Html.BeginForm("LoginDetails", "Login", FormMethod.Post, new { @class = "smart-form client-form login-form login active", enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="ser-title">Login</h2>
+                <hr class="botm-line">
+            </div>
+            <div class="col-md-12 col-sm-12 marb20">
+
+                @*<form>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio">Operator
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio">Patient
+                    </label>
+                </form>*@
+                <div class="contact-info">
+                    <h3 class="cnt-ttl">Login to your account!</h3>
+                    <div class="space"></div>
+                    @*<form >*@
+                        <div class="form-group">
+         
+                        
+                            <label>Username<span class="mandatory">*</span></label>
+                            @Html.TextBoxFor(m => m.Username, new { Class = "form-control", Placeholder = "Enter Username" })
+                            @Html.ValidationMessageFor(m => m.Username)
+                        </div>
+                        <div class="form-group">
+                          
+
+                            <label>First Name<span class="mandatory">*</span></label>
+                            @Html.PasswordFor(m => m.Password, new { Class = "form-control", Placeholder = "Enter Password" })
+                            @Html.ValidationMessageFor(m => m.Password)
+
+                        </div>
+
+                        <div class="form-action">
+                            @*<button type="submit" class="btn btn-form">Send Message</button>*@
+
+                            <a class="btn btn-cancel btn-sm" title="Cancel" href="#" >
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-sm" title="Save" id="btnSave">
+                                Save
+                            </button>
+                        </div>
+                    @*</form>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script src="~/Content/js/jquery.min.js"></script>
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('form').submit(function () {
+            var serializedForm = $(this).serialize();
+            $.ajax({
+                url: '@Url.Action("LoginDetails","Login")',
+                type: "POST",
+                data: serializedForm,
+                success: function (result) {
+
+                    alert("success " + result.UserName);
+                },
+                error: function (result) {
+                    alert("Failed");
+                }
+
+            });
+            return false;
+        });
+    });
+
+</script>*@
