@@ -115,54 +115,49 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
         }
 
         ///// <summary>
-        ///// Gets employee details by user ID
+        ///// Gets patient details by user ID
         ///// </summary>
         ///// <param name="userID">user ID</param>
-        ///// <returns>Return employee view model</returns>
-        //public EmployeeVM GetEmployeeById(int userID)
-        //{
-        //    try
-        //    {
-        //        Users user = this.unitOfWork.UsersRepository.GetQuery(u => u.UserID == userID).FirstOrDefault();
-        //        if (user != null)
-        //        {
-        //            EmployeeVM objEmployeeVM = new EmployeeVM();
+        ///// <returns>Return patient view model</returns>
+        public PatientVM GetPatientById(int userID)
+        {
+            try
+            {
+                Users user = this.unitOfWork.UsersRepository.GetQuery(u => u.UserID == userID).FirstOrDefault();
+                if (user != null)
+                {
+                    PatientVM objPatientVM = new PatientVM();
 
-        //            objEmployeeVM.UserID = user.UserID;
-        //            objEmployeeVM.FirstName = user.FirstName;
-        //            objEmployeeVM.MiddleName = user.MiddleName;
-        //            objEmployeeVM.LastName = user.LastName;
-        //            objEmployeeVM.FullName = user.FirstName + " " + user.MiddleName + " " + user.LastName;
-        //            objEmployeeVM.Country = user.Country;
-        //            objEmployeeVM.DOB = user.DOB;
-        //            objEmployeeVM.EmailAddress = user.EmailAddress;
-        //            objEmployeeVM.Mobile = user.Mobile;
-        //            objEmployeeVM.CreatedByID = user.CreatedByID;
-        //            objEmployeeVM.CreatedDate = DateTime.Now;
-        //            objEmployeeVM.Telephone = user.Telephone;
-        //            objEmployeeVM.StundennachweisPath = user.StundennachweisPath;
-        //            objEmployeeVM.PersonalNummmer = user.PersonalNummmer;
+                    objPatientVM.UserID = user.UserID;
+                    objPatientVM.FirstName = user.FirstName;
+                    objPatientVM.MiddleName = user.MiddleName;
+                    objPatientVM.LastName = user.LastName;
+                    objPatientVM.FullName = user.FirstName + " " + user.MiddleName + " " + user.LastName;
+                    objPatientVM.Country = user.Country;
+                    objPatientVM.DOB = user.DOB;
+                    objPatientVM.EmailAddress = user.EmailAddress;
+                    objPatientVM.Mobile = user.Mobile;
+                    objPatientVM.CreatedByID = user.CreatedByID;
+                    objPatientVM.CreatedDate = DateTime.Now;
+                    objPatientVM.Telephone = user.Telephone;
 
-
-        //            objEmployeeVM.UploadStatus = false;
-
-        //            //if (!string.IsNullOrEmpty(user.StundennachweisPath))
-        //            //{
-        //            //    objEmployeeVM.StundennachweisPath = "~/UserData/StundennachweisUpload/FileExist.png";
-        //            //    objEmployeeVM.UploadStatus = true;
-        //            //}
+                    //if (!string.IsNullOrEmpty(user.StundennachweisPath))
+                    //{
+                    //    objEmployeeVM.StundennachweisPath = "~/UserData/StundennachweisUpload/FileExist.png";
+                    //    objEmployeeVM.UploadStatus = true;
+                    //}
 
 
-        //            return objEmployeeVM;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return null;
-        //    }
+                    return objPatientVM;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
 
-        //    return null;
-        //}
+            return null;
+        }
 
         ///// <summary>
         ///// Gets user details by email Address
@@ -196,84 +191,83 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
         //}
 
         ///// <summary>
-        ///// Saves Employee details
+        ///// Saves Patient details
         ///// </summary>
-        ///// <param name="model">Employee view model</param>
+        ///// <param name="model">Patient view model</param>
         ///// <returns>ID of saved object</returns>
-        //public EmployeeVM SaveEmployeeDetails(EmployeeVM model)
-        //{
-        //    var userInstance = this.GetUserDetailsByEmail(model.EmailAddress);
+        public PatientVM SavePatientDetails(PatientVM model)
+        {
+            //var userInstance = this.GetUserDetailsByEmail(model.EmailAddress);
 
-        //    Users obj;
-        //    if (model.UserID == 0)
-        //    {
-        //        obj = new Users();
-        //        obj.CreatedDate = DateTime.Now;
-        //        obj.CreatedByID = 1;
-        //        obj.Username = model.EmailAddress;
-        //        obj.Password = this.GenerateRandomPassword(model.EmailAddress);
-        //        //obj.UserStatusID = 1;
-        //        //obj.UserTypeID = 5;
-        //        if (userInstance != null)
-        //        {
-        //            model.EmployeeExistStatus = 0;//Already registered
-        //            return model;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        obj = this.GetEmployeeDetails(model.UserID);
-        //        if (userInstance != null && userInstance.UserID != model.UserID)
-        //        {
-        //            model.EmployeeExistStatus = 0;//Already registered
-        //            return model;
-        //        }
-        //    }
+            Users obj;
+            if (model.UserID == 0)
+            {
+                obj = new Users();
+                obj.CreatedDate = DateTime.Now;
+                obj.CreatedByID = 1;
+                obj.Username = model.EmailAddress;
+                // obj.Password = this.GenerateRandomPassword(model.EmailAddress);
+                obj.Password = "ptnt";
+                //obj.UserStatusID = 1;
+                //obj.UserTypeID = 5;
+                //if (userInstance != null)
+                //{
+                //    model.EmployeeExistStatus = 0;//Already registered
+                //    return model;
+                //}
+            }
+            else
+            {
+                obj = this.unitOfWork.UsersRepository.GetQuery(x => x.UserID == model.UserID).FirstOrDefault();
 
-        //    obj.FirstName = model.FirstName;
-        //    obj.MiddleName = model.MiddleName;
-        //    obj.LastName = model.LastName;
-        //    obj.EmailAddress = model.EmailAddress;
-        //    obj.Telephone = model.Telephone;
-        //    obj.Mobile = model.Mobile;
-        //    obj.PersonalNummmer = model.PersonalNummmer;
+            }
 
-        //    obj.DOB = model.DOB;
-        //    obj.StundennachweisPath = model.StundennachweisPath;
-        //    //obj.FlatHouseNameNumber = model.FlatHouseNameNumber;
-        //    //obj.Address1 = model.Address1;
-        //    //obj.Address2 = model.Address2;
-        //    //obj.City = model.City;
+            obj.FirstName = model.FirstName;
+            obj.MiddleName = model.MiddleName;
+            obj.LastName = model.LastName;
+            obj.EmailAddress = model.EmailAddress;
+            obj.Telephone = model.Telephone;
+            obj.Mobile = model.Mobile;
+            obj.Country = model.Country;
 
-        //    //obj.ModifiedByID = 1;
-        //    obj.ModifiedDate = DateTime.Now;
-        //    obj.UserRoleID = 3;
-        //    if (model.UserID == 0)
-        //    {
-        //        this.SendMailToUser(obj);
-        //    }
-        //    obj = this.SaveEmployee(obj);
-        //    //model.UserID = obj.UserID;
-        //    model.EmployeeExistStatus = 1;
-        //    return model;
+            obj.DOB = model.DOB;
+            //obj.FlatHouseNameNumber = model.FlatHouseNameNumber;
+            //obj.Address1 = model.Address1;
+            //obj.Address2 = model.Address2;
+            //obj.City = model.City;
 
+            //obj.ModifiedByID = 1;
+            obj.ModifiedDate = DateTime.Now;
+            obj.UserRoleID = 2;
+            if (model.UserID == 0)
+            {
+                this.unitOfWork.UsersRepository.Insert(obj);
+            }
+            else
+            {
+                this.unitOfWork.UsersRepository.Update(obj);
+            }
+
+            this.unitOfWork.Save();
+            return model;
 
 
-        //    //var userInstance = this.GetUserDetailsByEmail(model.EmailAddress);
 
-        //    //if (userInstance != null)
-        //    //{
-        //    //    model.EmployeeExistStatus = 0;//Already registered
-        //    //    return model;
-        //    //}
-        //    //else
-        //    //{
-        //    //    obj = this.SaveEmployee(obj);
-        //    //    model.UserID = obj.UserID;
-        //    //    model.EmployeeExistStatus = 1;
-        //    //    return model;
-        //    //}
-        //}
+            //var userInstance = this.GetUserDetailsByEmail(model.EmailAddress);
+
+            //if (userInstance != null)
+            //{
+            //    model.EmployeeExistStatus = 0;//Already registered
+            //    return model;
+            //}
+            //else
+            //{
+            //    obj = this.SaveEmployee(obj);
+            //    model.UserID = obj.UserID;
+            //    model.EmployeeExistStatus = 1;
+            //    return model;
+            //}
+        }
 
         ///// <summary> 
         ///// Send Mail to user 
@@ -373,7 +367,7 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
         //    }
         //}
 
-      
+
 
 
 

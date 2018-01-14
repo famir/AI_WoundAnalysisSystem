@@ -32,11 +32,18 @@ namespace AI_WoundAnalysisSystem.BLL.Interface
         Users GetPatientDetails(int userID);
 
         ///// <summary>
-        ///// Gets employee details by user ID
+        ///// Gets patient details by user ID
         ///// </summary>
-        ///// <param name="userID">user ID</param>
-        ///// <returns>Return employee view model</returns>
-        //EmployeeVM GetEmployeeById(int userID);
+        /// <param name="userID">user ID</param>
+        /// <returns>Return patient view model</returns>
+        PatientVM GetPatientById(int userID);
+
+        ///// <summary>
+        ///// Saves Patient details
+        ///// </summary>
+        ///// <param name="model">Patient view model</param>
+        ///// <returns>ID of saved object</returns>
+        PatientVM SavePatientDetails(PatientVM model);
 
         ///// <summary>
         ///// Gets user details by email Address

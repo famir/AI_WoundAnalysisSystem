@@ -1,0 +1,230 @@
+﻿@model AI_WoundAnalysisSystem.DTO.ViewModel.PatientVM
+@{
+    ViewBag.Title = "Edit Employee";
+}
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/GitecAlertMsg.js"></script>
+<script src="~/Scripts/bootstrap-dialog.min.js"></script>
+<link href="~/Content/bootstrap-dialog.min.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+<script language="javascript" type="text/javascript">
+
+
+
+
+    function OnSuccess(response) {
+        if (response.UserID == 0) {
+            SuccesMessage("Saved successfully.", "Success")
+        } else {
+            SuccesMessage("Updated successfully.", "Success")
+        }
+        //var message = "Person Id: " + response.PersonId;
+        //message += "\nName: " + response.Name;
+        //message += "\nGender: " + response.Gender;
+        //message += "\nCity: " + response.City;
+        //alert(message);
+
+
+    }
+    function OnFailure(response) {
+        SuccesMessage("Error while updating. Please try again.", "Error")
+    }
+
+</script>
+
+@using (Ajax.BeginForm("SavePatientDetails", "Patient",
+                                        new AjaxOptions
+                                        {
+                                            OnSuccess = "OnSuccess",
+                                            OnFailure = "OnFailure",
+                                        },
+                                        new
+                                        {
+                                            enctype = "multipart/form-data",
+                                            id = "patientAddOrEditForm"
+                                        }
+                                  ))
+{
+
+    <hr />
+
+
+
+
+
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.UserID)
+
+            <div class="col-md-6">
+                
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-3 mandatory" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FirstName)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MiddleName, new { @class = "control-label col-md-3 mandatory" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MiddleName)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-3 mandatory" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LastName)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmailAddress, new { @class = "control-label col-md-3 mandatory" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EmailAddress)
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                        @Html.LabelFor(model => model.Country, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Telephone, new { @class = "control-label col-md-3 mandatory" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Telephone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="btn btn-default" type="button" onclick="CancelEdit()">
+                            Cancel
+                        </button>
+                        @* <input type="submit" value="Submit" class="btn btn-default" />*@
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-save"></i>
+                            Save
+                        </button>
+                        @*@if (Model.UserID != 0)
+                            {
+                                <a class="btn btn-success" onclick="refreshAddNewTab('@Url.Action("AddOrEdit", "Employee", new { id = 0 })',false)"><i class="fa fa-plus"></i> Add New</a>
+                            }*@
+                    </div>
+                </div>
+
+                <section class="pull-left"><div class="mandatory"></div> </section>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.DocumentPath, new { @class = "control-label" })
+                    </div>
+
+                    <div class="col-md-9">
+                        @if (!string.IsNullOrEmpty(Model.DocumentPath))
+                            {
+                                @Html.ActionLink("Download Document", "Download", new { filePath = Model.DocumentPath })
+                            }
+
+                        @* <img src="@Url.Content(Model.StundennachweisPath)" style="margin:10px" height="200" width="200" id="imagePreview" />*@
+                        @*@if (!Model.UploadStatus)
+                            {*@
+                        @* <input type="file" name="StundennachweisUpload" id="StundennachweisUpload" onchange="ShowImagePreview(this,document.getElementById('imagePreview'))" />*@
+                        @*}*@
+
+
+
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input type="file" name="StundennachweisUpload" id="StundennachweisUpload" />
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+}
+
+<script type="text/javascript">
+
+    //function ShowImagePreview(imageUploader, previewImage) {
+    //    if (imageUploader.files && imageUploader.files[0]) {
+    //        var reader = new FileReader();
+    //        reader.onload = function (e) {
+    //            $(previewImage).attr('src', e.target.result);
+    //        }
+    //        reader.readAsDataURL(imageUploader.files[0]);
+    //    }
+    //}
+
+
+    function CancelEdit() {
+        //$("#viewHeadOffice").show();
+        //$("#editHeadOffice").hide();
+
+        $("#liAddEditPatient").hide();
+        $("#liPatientList").addClass('active')
+        $("#liAddEditPatient").removeClass('active')
+
+        $("#patientList").addClass(' in active')
+        $("#addEditPatient").removeClass(' in active')
+    }
+
+
+
+    $(document).ready(function () {
+
+        //Unobtrusive validation
+
+        var form = $('form')
+            , formData = $.data(form[0])
+            , settings = formData.validator.settings
+            , oldErrorPlacement = settings.errorPlacement
+            , oldSuccess = settings.success;
+
+        settings.errorPlacement = function (label, element) {
+            oldErrorPlacement(label, element);
+
+            label.parents('.form-group').addClass('has-error');
+            label.addClass('text-danger');
+        };
+
+        settings.success = function (label) {
+            label.parents('.form-group').removeClass('has-error');
+            oldSuccess(label);
+        };
+
+        //$("#btnPopupCancel").click(function () {
+
+        //    $("#loginModal").remove();
+        //    $('#menu').show();
+        //});
+    });
+</script>
+
+

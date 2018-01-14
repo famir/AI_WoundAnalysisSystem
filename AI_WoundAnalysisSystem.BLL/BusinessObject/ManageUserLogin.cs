@@ -70,9 +70,8 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
         public Users AuthenticateTemp(string userName, string password)
         {
             Users obj = new Users();
-
             var user = this.unitOfWork.UsersRepository.GetQuery(u => u.Username == userName && u.Password == password);
-
+             
             return user.FirstOrDefault();
         }
 

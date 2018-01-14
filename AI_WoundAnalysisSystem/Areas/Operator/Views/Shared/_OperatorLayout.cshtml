@@ -65,7 +65,17 @@
             var clickElmnt = tab + 'Clicked';
             if ($("#" + clickElmnt).val() == 'false') {
                 $("#" + tab).load('@Url.Action("LoadAdminTab", "Operator", new { Area = "Operator" })',  { tab: tab }, function () {
-                $("#" + clickElmnt).val('true');
+                    $("#" + clickElmnt).val('true');
+
+                                $("#tabLinks > li").removeClass("active");
+            $("#tabs > div").removeClass("fade in active");
+
+      
+
+            $("#link" + tab).addClass("active");
+                
+
+            $("#tab" + tab).addClass("fade in active");
             });
         }
         }
@@ -83,7 +93,7 @@
     </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Dashboard</title>
+    <title>Medicare</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -417,19 +427,12 @@
                 </form>
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
-                <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">MAIN NAVIGATION</li>
+                <ul class="sidebar-menu" data-widget="tree"id="tabLinks">
                     <li class="active" id="linkDashboard" onclick="LoadAdminTab('tabDashboard')">
                         <a href="#tabDashboard">
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-                            @*<span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>*@
-                        </a>
-                        @*<ul class="treeview-menu">
-                            <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                            <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                        </ul>*@
+                           
+                </a>
                     </li>
 
                     <li id="linkDashboard" onclick="LoadAdminTab('tabPatientList')">
@@ -448,8 +451,18 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-
-            <section class="content">
+            <!-- Content Header (Page header) for dashboard                                   -->
+            <section class="content-header">
+                <h1>
+                    Dashboard
+                    <small>Version 2.0</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">Dashboard</li>
+                </ol>
+            </section>
+            <section class="content" id="tabs">
                 <!--Admin Dashboard-->
                 <div id="tabDashboard" hidden class="tabsAdmin">
 
@@ -712,5 +725,6 @@
     <script src="~/DashboardContent/dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/DashboardContent/dist/js/demo.js"></script>
+
 </body>
 </html>

@@ -30,9 +30,14 @@ namespace AI_WoundAnalysisSystem.Areas.Operator.Controllers
 
 
         // GET: Operator/Operator
-        public ActionResult Index()
+        public ActionResult Index(string tab)
         {
+
             ViewData["PatientCount"] = this._manageUserLogin.GetUserCount();
+            if (tab != null)
+            {
+                this.ViewData["ActiveTab"] = tab;
+            }
             return View();
         }
 

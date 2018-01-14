@@ -71,15 +71,15 @@ namespace AI_WoundAnalysisSystem.Controllers
                     {
                         this.Session["LoggedInUser"] = userDetails.FirstName + " " + " " + userDetails.MiddleName + " " + userDetails.LastName;
                         this.Session["UserID"] = userDetails.UserID;
-                        this.Session["UserRole"] = userDetails.UserRole.UserRoleCode;
+                        this.Session["UserRoleCode"] = userDetails.UserRole.UserRoleCode;
 
-                        if (this.Session["UserRole"].ToString() == "OPRTR")
+                        if (this.Session["UserRoleCode"].ToString() == "OPTR")
                         {
                             return this.RedirectToAction("Index", "Operator", new { Area = "Operator" });
                         }
                         else
                         {
-                            return this.RedirectToAction("ClientDashboard", "ClientDashboard", new { Area = "Patient"});
+                            return this.RedirectToAction("Index", "Patient", new { Area = "Patient"});
                 
                         }
 

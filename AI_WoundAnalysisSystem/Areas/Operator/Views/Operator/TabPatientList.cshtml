@@ -135,11 +135,28 @@
             datatype: 'json',
             colModel: [
                 { label: 'UserID', name: 'UserID', hidden: true,key:true  },
-              
+
             { label: 'Full Name', name: 'FullName' },
             { label: 'Email Address', name: 'EmailAddress' },
             { label: 'Country', name: 'Country' },
+                {
+                label: 'Document',
+                name: 'DocumentPath',
+                formatter: function (cellvalue, options, rowObject) {
 
+                    if (cellvalue ==null) {
+                          return '@Html.Label(" ", new { @title = "Upload Document Pending", @class = "fa fa-upload" ,@style = "color:Red;font-weight:bold;" })'
+
+                    } else {
+
+                    var x = '@Html.ActionLink(" ", "Download", "Patient", new { Area = "Patient", filePath = "path" }, new { @title = "Download Document", @class = "fa fa-download", @style = "color:Blue;font-weight:bold;" })'
+                    return x.replace("path", cellvalue)
+                    }
+                    
+                },
+                align: "center",
+                width: 80
+            },
             //{ label: 'DOB', name: 'DOB',formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
             {
             label: ' ',

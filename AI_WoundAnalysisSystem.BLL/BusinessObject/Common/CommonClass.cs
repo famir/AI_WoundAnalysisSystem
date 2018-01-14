@@ -39,7 +39,7 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject.Common
             /// <summary>
             /// employee
             /// </summary>
-            EMPL
+            PTNT
         }
 
 

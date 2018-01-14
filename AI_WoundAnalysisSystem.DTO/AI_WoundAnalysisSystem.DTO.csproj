@@ -59,6 +59,7 @@
     <Compile Include="UserRole.cs" />
     <Compile Include="Users.cs" />
     <Compile Include="ViewModel\PatientListingVM.cs" />
+    <Compile Include="ViewModel\PatientVM.cs" />
     <Compile Include="ViewModel\UserLoginVM.cs" />
     <Compile Include="ViewModel\UserVM.cs" />
   </ItemGroup>
