@@ -87,7 +87,7 @@ namespace AI_WoundAnalysisSystem.DTO.ViewModel
         ///// Gets or sets the modified date
         ///// </summary>
         public DateTime? ModifiedDate { get; set; }
-
+        //public string BloodGroup { get; set; }
         /// <summary>
         /// Gets or sets the created by user ID
         /// </summary>

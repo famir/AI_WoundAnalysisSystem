@@ -44,7 +44,7 @@ namespace AI_WoundAnalysisSystem.BLL.Interface
         ///// <param name="model">Patient view model</param>
         ///// <returns>ID of saved object</returns>
         PatientVM SavePatientDetails(PatientVM model);
-
+        bool SavePatientPhoto(int userId, string photoPath);
         ///// <summary>
         ///// Gets user details by email Address
         ///// </summary>

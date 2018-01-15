@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -345,6 +346,7 @@
     <Folder Include="Areas\Operator\Models\" />
     <Folder Include="Areas\Patient\Models\" />
     <Folder Include="DashboardContent\bower_components\NewFolder1\" />
+    <Folder Include="Images\PatientImage\" />
     <Folder Include="Models\" />
     <Folder Include="UserData\PatientDoc\" />
   </ItemGroup>

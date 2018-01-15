@@ -229,22 +229,26 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
             obj.Telephone = model.Telephone;
             obj.Mobile = model.Mobile;
             obj.Country = model.Country;
-
+            obj.PostCode = model.PostCode;
             obj.DOB = model.DOB;
+            //obj.BloodGroup = model.BloodGroup;
             //obj.FlatHouseNameNumber = model.FlatHouseNameNumber;
             //obj.Address1 = model.Address1;
             //obj.Address2 = model.Address2;
             //obj.City = model.City;
 
             //obj.ModifiedByID = 1;
-            obj.ModifiedDate = DateTime.Now;
-            obj.UserRoleID = 2;
+
+
             if (model.UserID == 0)
             {
+                obj.UserRoleID = 2;
+                obj.CreatedDate = DateTime.Now;
                 this.unitOfWork.UsersRepository.Insert(obj);
             }
             else
             {
+                obj.ModifiedDate=DateTime.Now;
                 this.unitOfWork.UsersRepository.Update(obj);
             }
 
@@ -268,6 +272,29 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
             //    return model;
             //}
         }
+       
+
+        public bool SavePatientPhoto(int userId, string photoPath)
+        {
+            //var userInstance = this.GetUserDetailsByEmail(model.EmailAddress);
+            try
+            {
+                Users obj;
+                obj = this.unitOfWork.UsersRepository.GetQuery(x => x.UserID == userId).FirstOrDefault();
+
+                obj.DocumentPath = photoPath;
+
+                this.unitOfWork.UsersRepository.Update(obj);
+                this.unitOfWork.Save();
+                return true;
+            }
+           catch(Exception e)
+            {
+                return false;
+            }
+
+        }
+
 
         ///// <summary> 
         ///// Send Mail to user 

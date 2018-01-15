@@ -1,22 +1,24 @@
 ﻿using AI_WoundAnalysisSystem.BLL.BusinessObject;
 using AI_WoundAnalysisSystem.BLL.BusinessObject.Common;
 using AI_WoundAnalysisSystem.BLL.Interface;
+using AI_WoundAnalysisSystem.DTO;
 using AI_WoundAnalysisSystem.DTO.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Web;
 using System.Web.Mvc;
 
 namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
 {
     public class PatientController : Controller
     {
-
+        private readonly IManageUserLogin _manageUserLogin;
         /// <summary>
         /// manage Employee
         /// </summary>
         private readonly IManagePatient _managePatient;
-
+       
         /// <summary>
         /// Initializes a new instance of the <see cref="PatientController"/> class.
         /// </summary>
@@ -58,7 +60,8 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
 
                 case "tabProfile":
                     {
-                        return this.PartialView("Profile");
+                        Users patientDetails = this._managePatient.GetPatientDetails(Int32.Parse(this.Session["UserId"].ToString()));
+                        return this.PartialView("Profile",patientDetails);
                     }
 
                 case "tabTimeline":
@@ -123,8 +126,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
             }
 
         }
-
-
+        
         /// <summary>
         /// Save Patient Details
         /// </summary>
@@ -133,6 +135,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
         [HttpPost]
         public ActionResult SavePatientDetails(PatientVM details)
         {
+            var returnResult ="";
             int? result = -1;
 
             if (details != null)
@@ -170,9 +173,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
                     {
                         return this.RedirectToAction("Index", "Patient", new { area = "Patient", tab = "PatientList" });
                     }
-                }
-
-
+                } 
             }
             return this.RedirectToAction("Index", "Operator", new { area = "Operator", tab = "Dashboard" });
         }
@@ -187,6 +188,32 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
             //return the file for download, this is an Excel 
             //so I set the file content type to "application/vnd.ms-excel"
             return File(filePath, "application/vnd.ms-excel", fileName);
+        }
+
+
+        public ActionResult SavePatientPhoto(HttpPostedFileBase PHOTO)
+        {
+            var response = "";
+            if (this.Session["UserRoleCode"] != null)
+            {
+                string path = "";
+                string newImageName = Guid.NewGuid().ToString() + "-" + Path.GetFileName(PHOTO.FileName);
+                if (PHOTO != null)
+                    path = HttpContext.Server.MapPath("~//Images//PatientImage//" + newImageName);
+
+                if (PHOTO != null)
+                    PHOTO.SaveAs(path);
+
+                int userId = Int32.Parse(this.Session["UserId"].ToString());
+
+                var userDetails=  this._managePatient.SavePatientPhoto(userId, newImageName);
+                response = userDetails.ToString();
+            }
+            else
+            {
+                response = "-1"; 
+            } 
+            return Json(Response);
         }
     }
 }
