@@ -27,3 +27,8 @@ textarea {
     content: " *";
     color: red;
 }
+
+.mandatoryMark:before {
+    content: "*";
+    color: red;
+}

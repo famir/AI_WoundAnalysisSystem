@@ -59,18 +59,18 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
             var empList = this.unitOfWork.UsersRepository.GetQuery(null).ToList();
 
             List<PatientListingVM> lstEmployee = (from v in this.unitOfWork.UsersRepository.GetQuery(null)
-                                                select new PatientListingVM
-                                                {
-                                                    UserID = v.UserID,
-                                                    //PersonalNummmer = v.PersonalNummmer,
-                                                    FullName = v.FirstName + " " + v.MiddleName + " " + v.LastName,
-                                                    //SupplierType = v.SupplierType != null ? v.SupplierType.SupplierType : string.Empty,
-                                                    EmailAddress = v.EmailAddress,
-                                                    Country = v.Country,
-                                                    //StundennachweisPath = v.StundennachweisPath
-                                                    //DOB = v.DOB,
+                                                  select new PatientListingVM
+                                                  {
+                                                      UserID = v.UserID,
+                                                      //PersonalNummmer = v.PersonalNummmer,
+                                                      FullName = v.FirstName + " " + v.MiddleName + " " + v.LastName,
+                                                      //SupplierType = v.SupplierType != null ? v.SupplierType.SupplierType : string.Empty,
+                                                      EmailAddress = v.EmailAddress,
+                                                      Country = v.Country,
+                                                      //StundennachweisPath = v.StundennachweisPath
+                                                      //DOB = v.DOB,
 
-                                                }).ToList();
+                                                  }).ToList();
             return lstEmployee;
         }
 
@@ -80,28 +80,17 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
         /// <returns>returns employee list</returns>
         public List<PatientListingVM> GetAllPatientByRole(string UserRoleCode)
         {
-            var empList = this.unitOfWork.UsersRepository.GetQuery(null).ToList();
-
-            if (UserRoleCode != Enum.GetName(typeof(CommonClass.UserRole), CommonClass.UserRole.OPTR))
-            {
-                string userRoleName = Enum.GetName(typeof(CommonClass.UserRole), CommonClass.UserRole.OPTR);
-                empList = this.unitOfWork.UsersRepository.GetQuery(null).Where(x => x.UserRole.UserRoleName != userRoleName).ToList();
-            }
-
-            List<PatientListingVM> lstEmployee = (from v in empList
-                                                select new PatientListingVM
-                                                {
-                                                    UserID = v.UserID,
-                                                    //PersonalNummmer = v.PersonalNummmer,
-                                                    FullName = v.FirstName + " " + v.MiddleName + " " + v.LastName,
-                                                    //SupplierType = v.SupplierType != null ? v.SupplierType.SupplierType : string.Empty,
-                                                    EmailAddress = v.EmailAddress,
-                                                    Country = v.Country,
-                                                    //StundennachweisPath = v.StundennachweisPath
-                                                    //DOB = v.DOB,
-
-                                                }).ToList();
-            return lstEmployee;
+            var usrList = this.unitOfWork.UsersRepository.GetQuery(null).Where(x => x.UserRole.UserRoleCode != UserRoleCode).ToList();
+            List<PatientListingVM> lstPatient = (from v in usrList
+                                                  select new PatientListingVM
+                                                  {
+                                                      UserID = v.UserID,
+                                                      FullName = v.FirstName + " " + v.MiddleName + " " + v.LastName,
+                                                      EmailAddress = v.EmailAddress,
+                                                      Country = v.Country,
+                                                       
+                                                  }).ToList();
+            return lstPatient;
         }
 
         /// <summary>

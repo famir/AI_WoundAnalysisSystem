@@ -1,5 +1,5 @@
 ﻿<script src="~/Content/js/jquery.min.js"></script>
-<section class="content">
+
     <!-- Small boxes (Stat box) -->
 
     <div class="row">
@@ -507,23 +507,19 @@
     </div>
     <!-- /.row (main row) -->
 
-</section>
    <script type="text/javascript">
     $(document).ready(function () {
 
         if ('@ViewData["ActiveTab"]' != '') {
-            $("#tabPatientList").empty();
-            $("#tabPatientListClicked").val(false);
+
             $("#tabLinks > li").removeClass("active");
             $("#tabs > div").removeClass("fade in active");
 
             var tab = '@ViewData["ActiveTab"]'.toString();
-            alert(tab)
-            $("#link" + tab).addClass("active");
+            //$("#link" + tab).addClass("active");
             var tabLoadID = 'tab' + tab;
-            LoadAdminTab(tabLoadID)
-
-            $("#tab" + tab).addClass("fade in active");
+            //$("#" + tabLoadID + 'Clicked').val('false');
+            LoadAdminTab("tabPatientList");
         }
         else {
             $("#linkDashboard").addClass("active");
