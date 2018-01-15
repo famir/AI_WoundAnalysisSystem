@@ -37,7 +37,7 @@ namespace AI_WoundAnalysisSystem.Areas.Operator.Controllers
             if (tab != null)
             {
                 this.ViewData["ActiveTab"] = tab;
-            }
+                }
             return View();
         }
 
@@ -54,6 +54,7 @@ namespace AI_WoundAnalysisSystem.Areas.Operator.Controllers
 
                 case "tabDashboard":
                     {
+                        ViewData["PatientCount"] = this._manageUserLogin.GetUserCount();
                         return this.PartialView("Index");
                     }
 
@@ -64,6 +65,7 @@ namespace AI_WoundAnalysisSystem.Areas.Operator.Controllers
 
                 case "tabPatientList":
                     {
+                      
                         return this.PartialView("TabPatientList");
                     }
 

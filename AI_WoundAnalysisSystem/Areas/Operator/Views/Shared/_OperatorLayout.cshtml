@@ -1,88 +1,33 @@
-﻿@*<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
-</html>*@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+﻿
 
 
 <!DOCTYPE html>
 <html>
 <head>
+    
     <script>
 
         function LoadAdminTab(tab) {
-
+            if (tab =="tabDashboard"){
+                $(".brdcrmbHeading").text("Dashboard");
+            } else {
+                $(".brdcrmbHeading").text("Patient List");
+            }
             ShowOrHideTabs(tab)
             var clickElmnt = tab + 'Clicked';
             if ($("#" + clickElmnt).val() == 'false') {
-                $("#" + tab).load('@Url.Action("LoadAdminTab", "Operator", new { Area = "Operator" })',  { tab: tab }, function () {
+              $("#" + tab).load('@Url.Action("LoadAdminTab", "Operator", new { Area = "Operator" })',  { tab: tab }, function () {
                     $("#" + clickElmnt).val('true');
 
-                                $("#tabLinks > li").removeClass("active");
-            $("#tabs > div").removeClass("fade in active");
-
-      
-
-            $("#link" + tab).addClass("active");
-                
-
-            $("#tab" + tab).addClass("fade in active");
+                              
             });
         }
         }
         function ShowOrHideTabs(tab) {
             $(".tabsAdmin").hide();
             $("#renderBody").hide();
-
+            $("#tabLinks > li").removeClass("active");
+            $("#" + tab.replace("tab","link")).addClass("active");
             $("#" + tab).show();
         }
 
@@ -435,7 +380,7 @@
                 </a>
                     </li>
 
-                    <li id="linkDashboard" onclick="LoadAdminTab('tabPatientList')">
+                    <li id="linkPatientList" onclick="LoadAdminTab('tabPatientList')">
                         <a href="#tabPatientList">
                             <i class="fa fa-th"></i> <span>Patient List</span>
                
@@ -453,13 +398,12 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) for dashboard                                   -->
             <section class="content-header">
-                <h1>
+                <h1 class="brdcrmbHeading">
                     Dashboard
-                    <small>Version 2.0</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li class="active">Dashboard</li>
+                    <li class="active brdcrmbHeading">Dashboard</li>
                 </ol>
             </section>
             <section class="content" id="tabs">
@@ -690,6 +634,7 @@
     <!-- ./wrapper -->
     <!-- jQuery 3 -->
     <script src="~/DashboardContent/bower_components/jquery/dist/jquery.min.js"></script>
+
     <!-- jQuery UI 1.11.4 -->
     <script src="~/DashboardContent/bower_components/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
