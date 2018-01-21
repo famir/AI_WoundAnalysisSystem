@@ -44,7 +44,33 @@ namespace AI_WoundAnalysisSystem.BLL.Interface
         ///// <param name="model">Patient view model</param>
         ///// <returns>ID of saved object</returns>
         PatientVM SavePatientDetails(PatientVM model);
+
         bool SavePatientPhoto(int userId, string photoPath);
+
+        bool RegisterPatientDetails(PatientVM details);
+
+        /// <summary>
+        ///  delete user by user id
+        /// </summary>
+        /// <param name="userId">user Id</param>
+        /// <returns>true for successful delete</returns>
+        bool DeleteByUserId(int userId);
+
+
+        /// <summary>
+        /// SendStatus
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="operation">operation</param>
+        /// <returns>true for successful delete</returns>
+        bool SendStatus(int userId, string operation);
+
+        /// <summary> 
+        /// Send Mail to user 
+        /// </summary>
+        /// <param name="userModel">User model</param>
+        void SendMailToUser(Users userModel, string status);
+
         ///// <summary>
         ///// Gets user details by email Address
         ///// </summary>
@@ -66,14 +92,6 @@ namespace AI_WoundAnalysisSystem.BLL.Interface
         ///// <param name="model">Employee view model</param>
         ///// <returns>ID of saved object</returns>
         //EmployeeVM SaveEmployeeDetails(EmployeeVM model);
-
-
-        ///// <summary>
-        /////  delete user by user id
-        ///// </summary>
-        ///// <param name="userId">user Id</param>
-        ///// <returns>true for successful delete</returns>
-        //bool DeleteByUserId(int userId);
 
         ///// <summary>
         ///// Saves Employee details

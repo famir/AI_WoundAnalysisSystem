@@ -6,6 +6,7 @@ using AI_WoundAnalysisSystem.DTO.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -18,7 +19,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
         /// manage Employee
         /// </summary>
         private readonly IManagePatient _managePatient;
-       
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PatientController"/> class.
         /// </summary>
@@ -61,7 +62,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
                 case "tabProfile":
                     {
                         Users patientDetails = this._managePatient.GetPatientDetails(Int32.Parse(this.Session["UserId"].ToString()));
-                        return this.PartialView("Profile",patientDetails);
+                        return this.PartialView("Profile", patientDetails);
                     }
 
                 case "tabTimeline":
@@ -126,7 +127,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
             }
 
         }
-        
+
         /// <summary>
         /// Save Patient Details
         /// </summary>
@@ -135,7 +136,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
         [HttpPost]
         public ActionResult SavePatientDetails(PatientVM details)
         {
-            var returnResult ="";
+            var returnResult = "";
             int? result = -1;
 
             if (details != null)
@@ -143,23 +144,23 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
 
                 var userDetails = this._managePatient.SavePatientDetails(details);
 
-          
-                        if (userDetails != null)
-                        {
-                            if (details.UserID == 0)
-                            {
-                                this.TempData["SucessAlert"] = "1";
-                            }
-                            else if (details.UserID > 0)
-                            {
-                                this.TempData["SucessAlert"] = "2";
-                            }
-                        }
-                        else
-                        {
-                            this.TempData["SucessAlert"] = "0";
-                        }
-            
+
+                if (userDetails != null)
+                {
+                    if (details.UserID == 0)
+                    {
+                        this.TempData["SucessAlert"] = "1";
+                    }
+                    else if (details.UserID > 0)
+                    {
+                        this.TempData["SucessAlert"] = "2";
+                    }
+                }
+                else
+                {
+                    this.TempData["SucessAlert"] = "0";
+                }
+
 
 
 
@@ -173,21 +174,67 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
                     {
                         return this.RedirectToAction("Index", "Patient", new { area = "Patient", tab = "PatientList" });
                     }
-                } 
+                }
             }
             return this.RedirectToAction("Index", "Operator", new { area = "Operator", tab = "Dashboard" });
+        }
+
+        /// <summary>
+        /// Delete  Patient
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>DeletePatient view</returns>
+        public ActionResult DeletePatient(string id)
+        {
+            int userId = Convert.ToInt32(id);
+            var deleted = this._managePatient.DeleteByUserId(userId);
+
+            if (!deleted)
+            {
+                userId = -1;
+            }
+            return this.Json(userId, JsonRequestBehavior.AllowGet);
+
+        }
+
+        /// <summary>
+        /// SendStatus
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="operation">operation</param>
+        /// <returns>SendStatus view</returns>
+        public ActionResult SendStatus(string id, string operation)
+        {
+            int userId = Convert.ToInt32(id);
+            var deleted = this._managePatient.SendStatus(userId, operation);
+
+            if (!deleted)
+            {
+                userId = -1;
+            }
+            return this.Json(userId, JsonRequestBehavior.AllowGet);
+
         }
         [HttpGet]
         //[DeleteFileAttribute] //Action Filter, it will auto delete the file after download, 
         //I will explain it later
-        public ActionResult Download(string filePath)
+        public ActionResult Download(string fileName)
         {
+            string contentType = "application/pdf";
             //get the temp folder and file path in server
-            string fullPath = Path.Combine(Server.MapPath("~/temp"), filePath);
-            string fileName = filePath.Replace("~/UserData/StundennachweisUpload//", "");
+            //string fullPath = Path.Combine(Server.MapPath("~/temp"), filePath);
+            string filePath = HttpContext.Server.MapPath("~/UserData/PatientDoc//" + fileName);
             //return the file for download, this is an Excel 
             //so I set the file content type to "application/vnd.ms-excel"
-            return File(filePath, "application/vnd.ms-excel", fileName);
+
+            if (contentType.Contains("png"))
+            {
+                contentType = "application/png";
+            }else if (contentType.Contains("jpg"))
+            {
+                contentType = "application/jpg";
+            }
+            return File(filePath, contentType, fileName);
         }
 
 
@@ -206,14 +253,49 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
 
                 int userId = Int32.Parse(this.Session["UserId"].ToString());
 
-                var userDetails=  this._managePatient.SavePatientPhoto(userId, newImageName);
+                var userDetails = this._managePatient.SavePatientPhoto(userId, newImageName);
                 response = userDetails.ToString();
             }
             else
             {
-                response = "-1"; 
-            } 
+                response = "-1";
+            }
             return Json(Response);
+        }
+
+        // GET: Patient/Patient
+        public ActionResult PatientRegister()
+        {
+            PatientVM patientDetails = new PatientVM();
+            return PartialView("PatientRegisterPV", patientDetails);
+        }
+
+        public ActionResult RegisterPatientDetails(PatientVM details)
+        {
+            if (details != null && details.DocumentUpload != null)
+            {
+                string path = "";
+                string newImageName = DateTime.Now.Day + "_" + Path.GetFileName(details.DocumentUpload.FileName);
+                path = HttpContext.Server.MapPath("~/UserData/PatientDoc//" + newImageName);
+                details.DocumentUpload.SaveAs(path);
+                details.DocumentPath = newImageName;
+            }
+            var userDetails = this._managePatient.RegisterPatientDetails(details);
+            if (userDetails)
+            {
+
+                this.TempData["SucessAlert"] = "1";
+            }
+            else
+            {
+                this.TempData["SucessAlert"] = "0";
+            }
+
+            return RedirectToAction("Index", "Home", new
+            {
+                Area = "",
+                message = this.TempData["SucessAlert"]
+            });
         }
     }
 }

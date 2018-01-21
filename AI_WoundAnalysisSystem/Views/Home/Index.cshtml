@@ -29,9 +29,38 @@
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>*@
+@*@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")*@
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@*<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+<script src="~/Scripts/GitecAlertMsg.js"></script>
+<script src="~/Scripts/bootstrap-dialog.min.js"></script>
+<link href="~/Content/bootstrap-dialog.min.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+<script type="text/javascript">
+        //$.noConflict();
+        $(document).ready(function () {
+
+
+
+                       @if (TempData["SucessAlert"] != null && TempData["SucessAlert"].ToString() == "1")
+                       {
+            @:SuccesMessage("Registered successfully.", "Information");
+                        TempData.Remove("SucessAlert");
+                       }
+                       else if (TempData["SucessAlert"] != null && TempData["SucessAlert"].ToString() == "0")
+                       {
+            @:ErrorMessage("Error while saving the records.", "Warning");
+                        TempData.Remove("SucessAlert");
+                       }
+                      
+        });
+</script>
 
 <!--login-->
-<section id="login" class="section-padding">
+
     @Html.Action("LoginDetails", "Login")
-</section>
+
 <!--/ login-->

@@ -137,25 +137,26 @@
 
                     } else {
 
-                    var x = '@Html.ActionLink(" ", "Download", "Patient", new { Area = "Patient", filePath = "path" }, new { @title = "Download Document", @class = "fa fa-download", @style = "color:Blue;font-weight:bold;" })'
+                    var x = '@Html.ActionLink(" ", "Download", "Patient", new { Area = "Patient", fileName = "path" }, new { @title = "Download Document", @class = "fa fa-download", @style = "color:Blue;font-weight:bold;" })'
                     return x.replace("path", cellvalue)
                     }
-                    
+
                 },
                 align: "center",
                 width: 80
             },
             //{ label: 'DOB', name: 'DOB',formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
-            {
-            label: ' ',
-            name: 'UserID',
-            formatter: buttonFormatter,
-            align: "center",
-            width: 60,
-            formatoptions: {
-            action: 'View'
-            }
-            }, {
+            //{
+            //label: ' ',
+            //name: 'UserID',
+            //formatter: buttonFormatter,
+            //align: "center",
+            //width: 60,
+            //formatoptions: {
+            //action: 'View'
+            //}
+                //},
+                {
                 label: ' ',
                 name: 'UserID',
                 formatter: buttonFormatter,
@@ -174,6 +175,26 @@
                 width: 60,
                 formatoptions: {
                     action: 'Delete'
+                }
+                },
+            {
+                label: ' ',
+                name: 'UserID',
+                formatter: mailSendStatus,
+                align: "center",
+                width: 60,
+                formatoptions: {
+                    action: 'Accept'
+                }
+            },
+            {
+                label: ' ',
+                name: 'UserID',
+                formatter: mailSendStatus,
+                align: "center",
+                width: 60,
+                formatoptions: {
+                    action: 'Reject'
                 }
             }
             ],
@@ -196,17 +217,53 @@
 
         var operation = options.colModel.formatoptions.action;
 
-        if (operation == "View") {
-            return ' <a class="btn btn-default" aria-label="View" onclick=\"getRecord(' + cellvalue + ',' + "\'" + operation + "\'" + ');\"><i class="fa fa-eye" title="View Record"  aria-hidden="true"></i> </a>';
-
-            //} else if (operation == "Add"){
-            //    return ' <a class="btn btn-default" aria-label="View" onclick=\"getRecord(' + cellvalue + ');\"><i class="fa fa-eye" aria-hidden="true"></i> </a>';
-        } else if (operation == "Edit") {
-            return ' <a class="btn btn-primary" aria-label="Edit" onclick=\"getRecord(' + cellvalue + ',' + "\'" + operation + "\'" + ');\"><i class="fa fa-pencil" title="Edit Record"  aria-hidden="true"></i> </a>';
+       if (operation == "Edit") {
+           return ' <a class="btn btn-link" aria-label="Edit" onclick=\"getRecord(' + cellvalue + ',' + "\'" + operation + "\'" + ');\"><i class="fa fa-pencil" style="color:#0cc8f7" title="Edit Record"  aria-hidden="true"></i> </a>';
         } else if (operation == "Delete") {
-            return ' <a class="btn btn-danger" aria-label="Delete" onclick=\"getRecord(' + cellvalue + ',' + "\'" + operation + "\'" + ');\"><i class="fa fa-trash-o" title="Delete Record" aria-hidden="true"></i> </a>';
+           return ' <a class="btn btn-link" aria-label="Delete" onclick=\"getRecord(' + cellvalue + ',' + "\'" + operation + "\'" + ');\"><i class="fa fa-trash-o"style="color:red" title="Delete Record" aria-hidden="true"></i> </a>';
         }
 
+    }
+    function mailSendStatus(cellvalue, options, rowObject) {
+        var operation = options.colModel.formatoptions.action;
+
+        if (operation == "Accept") {
+            return ' <a class="btn btn-link" aria-label="Accept" onclick=\"sendStatus(' + cellvalue + ',' + "\'" + operation + "\'" + ');\"><i class="fa fa-check" style="color:green" title="Accept"  aria-hidden="true"></i> </a>';
+        } else if (operation == "Reject") {
+            return ' <a class="btn btn-link" aria-label="Reject" onclick=\"sendStatus(' + cellvalue + ',' + "\'" + operation + "\'" + ');\"><i class="fa fa-ban" style="color:orange" title="Reject" aria-hidden="true"></i> </a>';
+        }
+    }
+
+    function sendStatus(id, operation) {
+        if (operation == "Accept") {
+ 
+
+            var dataToPost = { id: id, operation: operation };
+
+                $.ajax({
+                    url: '@Url.Action("SendStatus", "Patient", new { Area = "Patient" })',
+                    type: "POST",
+                    data: JSON.stringify(dataToPost),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+
+                        if (result=="-1")
+                        {
+                                ErrorMessage("Error while sending status.", "Warning");
+
+                        } else {
+                            SuccesMessage("Cofirmation mail send successfully with login credentials.", "Information");
+                        }
+
+                    }
+                });
+
+            
+
+
+        } else {
+
+        }
     }
 
     function getRecord(id, operation) {
@@ -239,7 +296,7 @@
             });
         } else if (operation == "Delete") {
 
-            GetConfirm("Are you sure to remove this employee?", function () {
+            GetConfirm("Are you sure to remove this record?", function () {
                 //$("#tbody_readings").find("#tr_readings-" + id).remove();
 
                 var dataToPost = { id: id };

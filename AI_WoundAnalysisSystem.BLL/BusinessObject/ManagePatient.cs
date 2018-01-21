@@ -7,9 +7,11 @@ using AI_WoundAnalysisSystem.DTO;
 using AI_WoundAnalysisSystem.DTO.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Web;
 
 namespace AI_WoundAnalysisSystem.BLL.BusinessObject
 {
@@ -82,14 +84,14 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
         {
             var usrList = this.unitOfWork.UsersRepository.GetQuery(null).Where(x => x.UserRole.UserRoleCode != UserRoleCode).ToList();
             List<PatientListingVM> lstPatient = (from v in usrList
-                                                  select new PatientListingVM
-                                                  {
-                                                      UserID = v.UserID,
-                                                      FullName = v.FirstName + " " + v.MiddleName + " " + v.LastName,
-                                                      EmailAddress = v.EmailAddress,
-                                                      Country = v.Country,
-                                                       
-                                                  }).ToList();
+                                                 select new PatientListingVM
+                                                 {
+                                                     UserID = v.UserID,
+                                                     FullName = v.FirstName + " " + v.MiddleName + " " + v.LastName,
+                                                     EmailAddress = v.EmailAddress,
+                                                     Country = v.Country,
+                                                     DocumentPath = v.DocumentPath
+                                                 }).ToList();
             return lstPatient;
         }
 
@@ -237,7 +239,7 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
             }
             else
             {
-                obj.ModifiedDate=DateTime.Now;
+                obj.ModifiedDate = DateTime.Now;
                 this.unitOfWork.UsersRepository.Update(obj);
             }
 
@@ -261,7 +263,7 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
             //    return model;
             //}
         }
-       
+
 
         public bool SavePatientPhoto(int userId, string photoPath)
         {
@@ -271,59 +273,121 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
                 Users obj;
                 obj = this.unitOfWork.UsersRepository.GetQuery(x => x.UserID == userId).FirstOrDefault();
 
-                obj.DocumentPath = photoPath;
+                obj.ProfileImagePath = photoPath;
 
                 this.unitOfWork.UsersRepository.Update(obj);
                 this.unitOfWork.Save();
                 return true;
             }
-           catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
 
         }
 
+        public bool RegisterPatientDetails(PatientVM details)
+        {
+            try
+            {
+                Users obj = new Users();
+                obj.FirstName = details.FirstName;
+                obj.LastName = details.LastName;
+                obj.MiddleName = details.MiddleName;
+                obj.EmailAddress = details.EmailAddress;
+                obj.Country = details.Country;
+                obj.Telephone = details.Telephone;
+                obj.DocumentPath = details.DocumentPath;
+                obj.UserRoleID = 2;
+                this.unitOfWork.UsersRepository.Insert(obj);
+                this.unitOfWork.Save();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
 
-        ///// <summary> 
-        ///// Send Mail to user 
-        ///// </summary>
-        ///// <param name="userModel">User model</param>
-        //public void SendMailToUser(Users userModel)
-        //{
-        //    CommonClass objCommon = new CommonClass();
-        //    string subject = "Login credentials  for your account";
-        //    string bodyMessage = string.Empty;
-        //    //bodyMessage = "Hi " + userModel.LastName + " " + userModel.FirstName + ","
-        //    //  + "<br/><br/>"
-        //    //  + "Please login to the site using following credentials."
-        //    //  + "<br/>";
-        //    ////+ "Username : " + userModel.Username
-        //    ////+ "<br/>"
-        //    ////+ "Password : " + userModel.Password
-        //    ////+ "</br><br/>";
-        //    string tempFolderName = ConfigurationManager.AppSettings["UserCredentialTemplate"];
+        }
 
-        //    //Read template file from the App_Data folder
-        //    using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/" + tempFolderName)))
+        /// <summary>
+        ///  delete user by user id
+        /// </summary>
+        /// <param name="userId">user Id</param>
+        /// <returns>true for successful delete</returns>
+        public bool DeleteByUserId(int userId)
+        {
+            this.unitOfWork.UsersRepository.Delete(userId);
+            this.unitOfWork.Save();
 
-        //    {
+            var isNotDeleted = this.unitOfWork.UsersRepository.GetQuery(x => x.UserID == userId).Any();
 
-        //        bodyMessage = reader.ReadToEnd();
+            return !isNotDeleted;
+        }
 
-        //    }
+        /// <summary>
+        /// SendStatus
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="operation">operation</param>
+        /// <returns>true for successful delete</returns>
+        public bool SendStatus(int userId, string operation)
+        {
+            Users obj;
+            obj = this.unitOfWork.UsersRepository.GetQuery(x => x.UserID == userId).FirstOrDefault();
 
-        //    bodyMessage = bodyMessage.Replace("{EmployeeName}", userModel.LastName + " " + userModel.FirstName);
+            if (obj != null)
+            {
 
-        //    bodyMessage = bodyMessage.Replace("{UserName}", userModel.Username); //replacing the required things  
+                obj.Username = obj.EmailAddress;
+                obj.Password = "ptnt";
+                this.SendMailToUser(obj,operation);
+                this.unitOfWork.UsersRepository.Update(obj);
+                this.unitOfWork.Save();
+                return true;
+            }
+            else
+            {
+                this.SendMailToUser(obj, operation);
+                return false;
+            }
+        }
 
-        //    bodyMessage = bodyMessage.Replace("{Password}", userModel.Password);
+        /// <summary> 
+        /// Send Mail to user 
+        /// </summary>
+        /// <param name="userModel">User model</param>
+        public void SendMailToUser(Users userModel, string status)
+        {
+            CommonClass objCommon = new CommonClass();
+            string subject = string.Empty;
+            string bodyMessage = string.Empty;
+            if (status == "Accept")
+            {
+                subject = "Accepted ; Login credentials  for your account";
 
+                bodyMessage = "Hi " + userModel.LastName + " " + userModel.FirstName + ","
+                + "<br/><br/>"
+                + "Please login to the site using following credentials."
+                + "<br/>"
+                + "Username : " + userModel.Username
+                + "<br/>"
+                + "Password : " + userModel.Password
+                + "</br><br/>";
+            }
+            else
+            {
+                subject = "Rejected ; Rason for rejection";
 
+                bodyMessage = "Hi " + userModel.LastName + " " + userModel.FirstName + ","
+           + "<br/><br/>"
+           +"Your request is rejected because of lack of document proof that you have uploaded during registration."
+           + "<br/>";
+           
+            }
 
-
-        //    bool mailSend = objCommon.SendEmailNotificationUsingTemplate(subject, bodyMessage, userModel.EmailAddress);
-        //}
+            bool mailSend = objCommon.SendEmailNotification(subject, bodyMessage, userModel.EmailAddress);
+        }
 
         ///// <summary>
         ///// Creates a new password by email
@@ -347,20 +411,7 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
         //    return strUserName;
         //}
 
-        ///// <summary>
-        /////  delete user by user id
-        ///// </summary>
-        ///// <param name="userId">user Id</param>
-        ///// <returns>true for successful delete</returns>
-        //public bool DeleteByUserId(int userId)
-        //{
-        //    this.unitOfWork.UsersRepository.Delete(userId);
-        //    this.unitOfWork.Save();
 
-        //    var isNotDeleted = this.unitOfWork.UsersRepository.GetQuery(x => x.UserID == userId).Any();
-
-        //    return !isNotDeleted;
-        //}
 
 
         ///// <summary>
