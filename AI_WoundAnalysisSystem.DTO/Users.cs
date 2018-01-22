@@ -68,6 +68,11 @@ namespace AI_WoundAnalysisSystem.DTO
         public DateTime? DOB { get; set; }
 
         /// <summary>
+        /// Gets or sets the Profile Image path
+        /// </summary>
+        public string ProfileImagePath { get; set; }
+
+        /// <summary>
         /// Gets or sets the Stundennachweis document path
         /// </summary>
         public string DocumentPath { get; set; }

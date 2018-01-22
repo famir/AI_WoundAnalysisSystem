@@ -1,0 +1,166 @@
+﻿
+
+@model AI_WoundAnalysisSystem.DTO.ViewModel.PatientVM
+
+
+@*@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/GitecAlertMsg.js"></script>
+<script src="~/Scripts/bootstrap-dialog.min.js"></script>
+<link href="~/Content/bootstrap-dialog.min.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />*@
+
+<link href="~/Content/Site.css" rel="stylesheet" />
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script language="javascript" type="text/javascript">
+
+
+
+
+    function OnSuccess(response) {
+        if (response.UserID == 0) {
+            SuccesMessage("Registered successfully.", "Success")
+        } else {
+            SuccesMessage("Registered successfully.", "Success")
+        }
+
+    }
+    function OnFailure(response) {
+        SuccesMessage("Error while updating. Please try again.", "Error")
+    }
+</script>
+<section id="contact" class="section-padding">
+ 
+        <div class="container">
+
+
+            @using (Ajax.BeginForm("RegisterPatientDetails", "Patient",
+                                        new AjaxOptions
+                                        {
+                                            OnSuccess = "OnSuccess",
+                                            OnFailure = "OnFailure",
+                                        },
+                                        new
+                                        {
+                                            enctype = "multipart/form-data",
+                                            id = "patientRegistrationForm"
+                                        }
+                                  ))
+            {
+
+                <hr />
+
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="ser-title">Contact us</h2>
+                        <hr class="botm-line">
+                    </div>
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.UserID)
+                        <div class="col-md-4 col-sm-4">
+                            <h3>Contact Info</h3>
+                            <div class="space"></div>
+                            <p><i class="fa fa-map-marker fa-fw pull-left fa-2x"></i>321 Awesome Street<br> New York, NY 17022</p>
+                            <div class="space"></div>
+                            <p><i class="fa fa-envelope-o fa-fw pull-left fa-2x"></i>info@companyname.com</p>
+                            <div class="space"></div>
+                            <p><i class="fa fa-phone fa-fw pull-left fa-2x"></i>+1 800 123 1234</p>
+                        </div>
+                        
+
+                        <div class="col-md-8 col-sm-8">
+
+                            <h3>Register</h3>
+                            <div class="space"></div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-3 mandatory" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.FirstName)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MiddleName, new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                                   @* @Html.ValidationMessageFor(model => model.MiddleName)*@
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-3 mandatory" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.LastName)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EmailAddress, new { @class = "control-label col-md-3 mandatory" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.EmailAddress)
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Country, new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Telephone, new { @class = "control-label col-md-3 mandatory" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Telephone)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DocumentUpload, new { @class = "control-label col-md-3 mandatory" })
+                                <div class="col-md-9">
+                                    <input type="file" name="DocumentUpload" id="DocumentUpload" />
+                                   @* @Html.EditorFor(model => model.DocumentUpload, new { htmlAttributes = new { @class = "form-control" ,type="file", name = "DocumentUpload" } })*@
+                                 @*   @Html.ValidationMessageFor(model => model.DocumentUpload)*@
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button class="btn btn-default" type="button" onclick="CancelEdit()">
+                                        Cancel
+                                    </button>
+                    
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-save"></i>
+                                        Save
+                                    </button>
+                                  
+                                </div>
+                            </div>
+
+                            <section class="pull-left"> <span class="mandatory"></span><span> Marked is mandatory</span> </section>
+                        </div>
+                        
+
+                    </div>
+                </div>
+
+                <hr />
+            }
+
+        </div>
+
+</section>

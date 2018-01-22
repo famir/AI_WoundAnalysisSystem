@@ -10,10 +10,13 @@ namespace AI_WoundAnalysisSystem.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
-
-            return View();
+            if (!string.IsNullOrEmpty(message))
+            {
+                this.TempData["SucessAlert"] = message;
+            }
+             return View();
         }
 
         public ActionResult About()

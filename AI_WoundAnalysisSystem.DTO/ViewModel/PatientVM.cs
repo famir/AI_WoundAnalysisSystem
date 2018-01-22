@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AI_WoundAnalysisSystem.DTO.ViewModel
 {
-   public class PatientVM
+    public class PatientVM
     {
         /// <summary>
         /// Gets or sets the primary key
@@ -74,8 +75,10 @@ namespace AI_WoundAnalysisSystem.DTO.ViewModel
         public DateTime? DOB { get; set; }
 
         /// <summary>
-        /// Gets or sets the Stundennachweis document path
+        /// Gets or sets the document path
         /// </summary>
+        [Required(ErrorMessage = "Please Upload Document")]
+        [DisplayName("Document")]
         public string DocumentPath { get; set; }
 
         ///// <summary>
@@ -92,5 +95,9 @@ namespace AI_WoundAnalysisSystem.DTO.ViewModel
         /// Gets or sets the created by user ID
         /// </summary>
         public int? CreatedByID { get; set; }
+
+        [Required(ErrorMessage = "Please Upload Document")]
+        [DisplayName("Document")]
+        public HttpPostedFileBase DocumentUpload { get; set; }
     }
 }

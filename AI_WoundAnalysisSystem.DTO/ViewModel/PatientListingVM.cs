@@ -85,9 +85,9 @@ namespace AI_WoundAnalysisSystem.DTO.ViewModel
         public int PersonalNummmer { get; set; }
 
         /// <summary>
-        /// Gets or sets the Stundennachweis document path
+        /// Gets or sets the document path
         /// </summary>
-        public string StundennachweisPath { get; set; }
+        public string DocumentPath { get; set; }
 
         ///// <summary>
         ///// Gets or sets the created date
