@@ -176,12 +176,13 @@
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\bg-banner.jpg" />
     <Content Include="Content\img\doctor1.jpg" />
     <Content Include="Content\img\doctor2.jpg" />
     <Content Include="Content\img\doctor3.jpg" />
     <Content Include="Content\img\doctor4.jpg" />
-    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\logo1.png" />
     <Content Include="Content\img\thumb.png" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\custom.js" />
