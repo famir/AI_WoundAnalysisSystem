@@ -1,106 +1,360 @@
-﻿
- <!-- row -->
+﻿ 
+<style type="text/css">
+
+
+    #uploadedWoundImage {
+        float: left;
+        margin: 10px;
+        border: 1px solid #dadada;
+        width: auto;
+        height: auto;
+    }
+
+    .canvusStyle {
+        float: left;
+        margin: 10px;
+        border: 1px solid #dadada;
+    }
+
+
+    /*.wrapper {
+        padding: 5px;
+        background: #FEFEFE;
+        display: inline-block;
+        box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+        border-radius: 3px;
+        padding-bottom: 1px;
+        margin-bottom: 20px;
+    }
+
+    .help {
+        font-size: 2em;
+    }
+
+    canvas {
+        margin: 10px;
+    }*/
+</style>
 <div class="row">
+    @*<div class="col-md-3">
+        <!-- Profile Image -->
+        <div class="box box-primary">
+            <div class="box-body box-profile"> 
+
+                Testing
+                
+            </div>
+            <!-- /.box-body -->
+        </div>
+        
+    </div>*@
+    <!-- /.col -->
     <div class="col-md-12">
-        <!-- The time line -->
-        <ul class="timeline">
-            <!-- timeline time label -->
-            <li class="time-label">
-                <span class="bg-red">
-                    10 Feb. 2014
-                </span>
-            </li>
-            <!-- /.timeline-label -->
-            <!-- timeline item -->
-            <li>
-                <i class="fa fa-envelope bg-blue"></i>
-                <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-                    <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-                    <div class="timeline-body">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo...
-                    </div>
-                    <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs">Read more</a>
-                        <a class="btn btn-danger btn-xs">Delete</a>
-                    </div>
-                </div>
-            </li>
-            <!-- END timeline item -->
-            <!-- timeline item -->
-            <li>
-                <i class="fa fa-user bg-aqua"></i>
-                <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
-                    <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
-                </div>
-            </li>
-            <!-- END timeline item -->
-            <!-- timeline item -->
-            <li>
-                <i class="fa fa-comments bg-yellow"></i>
-                <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-                    <div class="timeline-body">
-                        Take me to your leader!
-                        Switzerland is small and neutral!
-                        We are more like Germany, ambitious and misunderstood!
-                    </div>
-                    <div class="timeline-footer">
-                        <a class="btn btn-warning btn-flat btn-xs">View comment</a>
-                    </div>
-                </div>
-            </li>
-            <!-- END timeline item -->
-            <!-- timeline time label -->
-            <li class="time-label">
-                <span class="bg-green">
-                    3 Jan. 2014
-                </span>
-            </li>
-            <!-- /.timeline-label -->
-            <!-- timeline item -->
-            <li>
-                <i class="fa fa-camera bg-purple"></i>
-                <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
-                    <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-                    <div class="timeline-body">
-                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                    </div>
-                </div>
-            </li>
-            <!-- END timeline item -->
-            <!-- timeline item -->
-            <li>
-                <i class="fa fa-video-camera bg-maroon"></i>
-                <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
-                    <h3 class="timeline-header"><a href="#">Mr. Doe</a> shared a video</h3>
-                    <div class="timeline-body">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs"
-                                    frameborder="0" allowfullscreen></iframe>
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs"> 
+                <li><a href="#settings" data-toggle="tab">Add Wound</a></li>
+            </ul>
+            <div class="tab-content">
+                <!-- /.tab-pane -->
+                <div class="active tab-pane" id="settings">
+                    <form id="patient_wound_form" class="form-horizontal" action="#"> 
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <input style="display:none"  class="form-control" id="UserID" placeholder="UserID">
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <label for="WoundTitle" class="col-sm-2 control-label">WoundTitle</label>
+                            <div class="col-sm-10">
+                                <input   class="form-control" id="WoundTitle" placeholder="WoundTitle">
+                            </div>
                         </div>
-                    </div>
-                    <div class="timeline-footer">
-                        <a href="#" class="btn btn-xs bg-maroon">See comments</a>
-                    </div>
+                        @*<div class="form-group">
+                            <label for="Woundtype" class="col-sm-2 control-label">Woundtype</label>
+                            <div class="col-sm-10">
+                                <input  class="form-control" id="Woundtype" placeholder="Woundtype">
+                            </div>
+                        </div>*@
+                        <div class="form-group">
+                            <label for="SufferingFrom" class="col-sm-2 control-label">SufferingFrom</label>
+                            <div class="col-sm-10">
+                                <input type="date"   class="form-control" id="SufferingFrom" placeholder="SufferingFrom">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="WoundDetails" class="col-sm-2 control-label">WoundDetails</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="WoundDetails" placeholder="WoundDetails"></textarea>
+                            </div>
+                        </div>
+                       
+                          
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Upload wound image</label>
+                            <div id="employ_image">
+                                <input type="file" onchange="readURL(this);" class="change_photo_btn" value="Change Photo"  />
+                            </div> 
+
+
+                            <div class="wrapper" style="background-color:white">
+                                @*<img src="" id="image">*@
+                                @*<img src="~/Images/dry_fibrinous_wound.jpg" id="image" />*@
+                                <img  src="~/Images/diabetis.png" id="uploadedWoundImage" />
+                            </div>
+                            <br>
+                            
+                            <div class="form-group">
+                                <label for="WoundDetails" class="col-sm-2 control-label">Threshold</label>
+                                <div class="col-sm-10">
+                                    <input type="input" id="threshold" value="70"><br><span class="help">(Hit enter or return after changing the value)</span>
+                                </div>
+                            </div>
+                        </div>
+ 
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-danger sub">Submit</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </li>
-            <!-- END timeline item -->
-            <li>
-                <i class="fa fa-clock-o bg-gray"></i>
-            </li>
-        </ul>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div>
+        <!-- /.nav-tabs-custom -->
     </div>
     <!-- /.col -->
 </div>
 <!-- /.row -->
+<script type="text/javascript"> 
+    var AddWound = new function () {
+        var that = this, Container = $('#patient_wound_form');
+        this.AjaxCallServer = function (type, url, data, success, fail) {
+            $.ajax({
+                type: type,
+                url: url,
+                data: data ? JSON.stringify({ model: data }) : null,
+                contentType: 'application/json;charset:utf-8',
+                dataType: 'json',
+                processData: true,
+                success: success,
+                error: function () {
+                    fail && fail();
+                }
+            });
+        };
+        this.SubmitEvent = new function () {
+            Container.submit(function () {
+                setTimeout(that.SaveWound(), 0);
+                return false;
+            });
+        };
+        this.SaveWound = function () { 
+            var model = {};   
+            model.WoundTitle = Container.find('#WoundTitle').val();
+            model.SufferingFrom = Container.find('#SufferingFrom').val();
+            model.WoundDetails = Container.find('#WoundDetails').val();
+            model.Threshold = Container.find('#threshold').val(); 
+
+            function getBase64Image(img) {
+                var canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+                var dataURL = canvas.toDataURL("image/png");
+                return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            }
+
+            model.OriginalImage = getBase64Image(document.getElementById("uploadedWoundImage"));
+
+            var firstCanvas = document.getElementById("layer").toDataURL("image/png");
+            firstCanvas = firstCanvas.replace('data:image/png;base64,', '');
+            model.SecondImage = firstCanvas; 
+            var edgeDetectedImage = document.getElementById("rawData").toDataURL("image/png");
+            edgeDetectedImage = edgeDetectedImage.replace('data:image/png;base64,', '');
+            model.EdgeDetectedImage = edgeDetectedImage; 
+            that.AjaxCallServer('POST', '/Patient/Patient/AddWound', model, function (responsne) {
+                alert("Your information updated successfully");
+            }, function (responsne) {
+                //alert("Something went wrong! Please refresh the page and try again.");
+            });
+
+             
+
+        };  
+    };
+     
+
+
+    function edgeDetector() {
+
+        // Variables
+        this.img = undefined;
+        this.imgElement = undefined;
+        this.ctx = undefined;
+        this.canvasElement = undefined;
+        this.rawCanvas = undefined;
+        this.rawctx = undefined;
+        this.ctxDimensions = {
+            width: undefined,
+            height: undefined
+        };
+        this.pixelData = undefined;
+        this.threshold = 70;
+        this.pointerColor = 'rgba(255,0,0,1)';
+
+
+        this.init = function () {  
+            // Build the canvas
+            var width = $(this.imgElement).width();
+            
+
+            var height = $(this.imgElement).height();
+            $("<canvas class=\"canvusStyle\"  id=\"rawData\" width=\"" + width + "\" height=\"" + height + "\"></canvas>").insertAfter(this.imgElement);
+            $("<canvas class=\"canvusStyle\"  id=\"layer\" width=\"" + width + "\" height=\"" + height + "\"></canvas>").insertAfter(this.imgElement);
+
+            this.canvasElement = $("#layer")[0];
+            this.rawCanvas = $("#rawData")[0];
+            this.ctx = this.canvasElement.getContext('2d');
+            this.rawctx = this.rawCanvas.getContext('2d');
+
+            // Store the Canvas Size
+            this.ctxDimensions.width = width;
+            this.ctxDimensions.height = height;
+        };
+
+        this.findEdges = function () {
+            this.copyImage();
+            this.coreLoop();
+        };
+
+        this.copyImage = function () { 
+            this.rawctx.clearRect(0, 0, this.ctxDimensions.width, this.ctxDimensions.height);
+            this.ctx.drawImage(this.imgElement, 0, 0);
+
+            //Grab the Pixel Data, and prepare it for use
+            this.pixelData = this.ctx.getImageData(0, 0, this.ctxDimensions.width, this.ctxDimensions.height);
+        };
+
+        this.coreLoop = function () {
+            var x = 0;
+            var y = 0;
+
+            var left = undefined;
+            var top = undefined;
+            var right = undefined;
+            var bottom = undefined;
+
+            for (y = 0; y < this.pixelData.height; y++) {
+                for (x = 0; x < this.pixelData.width; x++) {
+                    // get this pixel's data
+                    // currently, we're looking at the blue channel only.
+                    // Since this is a B/W photo, all color channels are the same.
+                    // ideally, we would make this work for all channels for color photos.
+                    index = (x + y * this.ctxDimensions.width) * 4;
+                    pixel = this.pixelData.data[index + 2];
+
+                    // Get the values of the surrounding pixels
+                    // Color data is stored [r,g,b,a][r,g,b,a]
+                    // in sequence.
+                    left = this.pixelData.data[index - 4];
+                    right = this.pixelData.data[index + 2];
+                    top = this.pixelData.data[index - (this.ctxDimensions.width * 4)];
+                    bottom = this.pixelData.data[index + (this.ctxDimensions.width * 4)];
+
+                    //Compare it all.
+                    // (Currently, just the left pixel)
+                    if (pixel > left + this.threshold) {
+                        this.plotPoint(x, y);
+                    }
+                    else if (pixel < left - this.threshold) {
+                        this.plotPoint(x, y);
+                    }
+                    else if (pixel > right + this.threshold) {
+                        this.plotPoint(x, y);
+                    }
+                    else if (pixel < right - this.threshold) {
+                        this.plotPoint(x, y);
+                    }
+                    else if (pixel > top + this.threshold) {
+                        this.plotPoint(x, y);
+                    }
+                    else if (pixel < top - this.threshold) {
+                        this.plotPoint(x, y);
+                    }
+                    else if (pixel > bottom + this.threshold) {
+                        this.plotPoint(x, y);
+                    }
+                    else if (pixel < bottom - this.threshold) {
+                        this.plotPoint(x, y);
+                    }
+                }
+            }
+        };
+
+        this.plotPoint = function (x, y) {
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, 0.5, 0, 2 * Math.PI, false);
+            this.ctx.fillStyle = 'green';
+            this.ctx.fill();
+            this.ctx.beginPath();
+             
+            // Copy onto the raw canvas
+            // this is probably the most useful application of this,
+            // as you would then have raw data of the edges that can be used.
+
+            this.rawctx.beginPath();
+            this.rawctx.arc(x, y, 0.5, 0, 2 * Math.PI, false);
+            this.rawctx.fillStyle = 'green';
+            this.rawctx.fill();
+            this.rawctx.beginPath();
+        };
+    }
+    var edgeDetector = new edgeDetector();
+
+    //$(document).ready(function () {
+    //    // Run at start
+    //    edgeDetector.imgElement = $('#uploadedWoundImage')[0];
+    //    edgeDetector.init();
+    //    edgeDetector.findEdges();
+
+    //    // Run when the threshold changes
+    //    $('#threshold').change(function () {
+    //        edgeDetector.threshold = $(this).val();
+    //        edgeDetector.findEdges();
+    //    });
+
+    //});
+
+    function readURL(input) {  
+        if (input.files && input.files[0]) { 
+             
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#uploadedWoundImage')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);  
+                $('canvas').remove();
+            // Run at start
+                setTimeout(function () {
+                    edgeDetector.imgElement = $('#uploadedWoundImage')[0];
+                    edgeDetector.init();
+                    edgeDetector.findEdges();
+                }, 1000);
+              
+
+            // Run when the threshold changes
+            $('#threshold').change(function () {
+                edgeDetector.threshold = $(this).val();
+                edgeDetector.findEdges();
+            });
+
+        }
+    }
+</script>

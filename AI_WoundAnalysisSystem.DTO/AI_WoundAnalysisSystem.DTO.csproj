@@ -62,6 +62,7 @@
     <Compile Include="ViewModel\PatientVM.cs" />
     <Compile Include="ViewModel\UserLoginVM.cs" />
     <Compile Include="ViewModel\UserVM.cs" />
+    <Compile Include="Wound.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -348,6 +348,9 @@
     <Folder Include="Areas\Patient\Models\" />
     <Folder Include="DashboardContent\bower_components\NewFolder1\" />
     <Folder Include="Images\PatientImage\" />
+    <Folder Include="Images\PatientWoundImage\EdgeDetectedWoundImage\" />
+    <Folder Include="Images\PatientWoundImage\OriginalWoundImage\" />
+    <Folder Include="Images\PatientWoundImage\SecondWoundImage\" />
     <Folder Include="Models\" />
     <Folder Include="UserData\PatientDoc\" />
   </ItemGroup>

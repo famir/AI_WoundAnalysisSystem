@@ -215,5 +215,51 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
             } 
             return Json(Response);
         }
+        public ActionResult AddWound(Wound model)
+        {
+            var response = "";
+            if (this.Session["UserRoleCode"] != null)
+            {
+                // Wound wound = this._managePatient.SavePatientPhoto(userId, newImageName); 
+                 
+                AddWoundImage(model.OriginalImage,"original",1);
+                AddWoundImage(model.SecondImage, "second", 1);
+                AddWoundImage(model.EdgeDetectedImage, "edge", 1);
+
+            }
+            else
+            {
+                response = "-1";
+            }
+            return Json(response);
+        }
+
+        public void AddWoundImage(string imageData, string type, int woundId)
+        {
+            string path = "";
+              switch (type)
+            {
+                case "original":
+                    path = HttpContext.Server.MapPath("~//Images//PatientWoundImage////OriginalWoundImage//" + woundId);
+                    break;
+                case "second":
+                    path = HttpContext.Server.MapPath("~//Images//PatientWoundImage////SecondWoundImage//" + woundId);
+                    break;
+                case "edge":
+                    path = HttpContext.Server.MapPath("~//Images//PatientWoundImage////EdgeDetectedWoundImage//" + woundId);
+                    break;
+            }
+            string fileNameWitPath = path + DateTime.Now.ToString().Replace("/", "-").Replace(" ", "- ").Replace(":", "") + ".png";
+            
+            using (FileStream fs = new FileStream(fileNameWitPath, FileMode.Create))
+            {
+                using (BinaryWriter bw = new BinaryWriter(fs))
+                {
+                    byte[] data = Convert.FromBase64String(imageData);
+                    bw.Write(data);
+                    bw.Close();
+                }
+            }
+        }
     }
 }
