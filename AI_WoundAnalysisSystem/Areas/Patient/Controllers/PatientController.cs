@@ -177,19 +177,55 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
             }
             return this.RedirectToAction("Index", "Operator", new { area = "Operator", tab = "Dashboard" });
         }
+
+        public ActionResult DeletePatient(string id)
+        {
+            int userId = Convert.ToInt32(id);
+            var deleted = this._managePatient.DeleteByUserId(userId);
+
+            if (!deleted)
+            {
+                userId = -1;
+            }
+            return this.Json(userId, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult SendStatus(string id, string operation)
+        {
+            int userId = Convert.ToInt32(id);
+            var deleted = this._managePatient.SendStatus(userId, operation);
+
+            if (!deleted)
+            {
+                userId = -1;
+            }
+            return this.Json(userId, JsonRequestBehavior.AllowGet);
+
+        }
+
         [HttpGet]
         //[DeleteFileAttribute] //Action Filter, it will auto delete the file after download, 
         //I will explain it later
-        public ActionResult Download(string filePath)
+        public ActionResult Download(string fileName)
         {
+            string contentType = "application/pdf";
             //get the temp folder and file path in server
-            string fullPath = Path.Combine(Server.MapPath("~/temp"), filePath);
-            string fileName = filePath.Replace("~/UserData/StundennachweisUpload//", "");
+            //string fullPath = Path.Combine(Server.MapPath("~/temp"), filePath);
+            string filePath = HttpContext.Server.MapPath("~/UserData/PatientDoc//" + fileName);
             //return the file for download, this is an Excel 
             //so I set the file content type to "application/vnd.ms-excel"
-            return File(filePath, "application/vnd.ms-excel", fileName);
-        }
 
+            if (contentType.Contains("png"))
+            {
+                contentType = "application/png";
+            }
+            else if (contentType.Contains("jpg"))
+            {
+                contentType = "application/jpg";
+            }
+            return File(filePath, contentType, fileName);
+        }
 
         public ActionResult SavePatientPhoto(HttpPostedFileBase PHOTO)
         {
@@ -260,6 +296,41 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
                     bw.Close();
                 }
             }
+        }
+
+        // GET: Patient/Patient
+        public ActionResult PatientRegister()
+        {
+            PatientVM patientDetails = new PatientVM();
+            return PartialView("PatientRegisterPV", patientDetails);
+        }
+
+        public ActionResult RegisterPatientDetails(PatientVM details)
+        {
+            if (details != null && details.DocumentUpload != null)
+            {
+                string path = "";
+                string newImageName = DateTime.Now.Day + "_" + Path.GetFileName(details.DocumentUpload.FileName);
+                path = HttpContext.Server.MapPath("~/UserData/PatientDoc//" + newImageName);
+                details.DocumentUpload.SaveAs(path);
+                details.DocumentPath = newImageName;
+            }
+            var userDetails = this._managePatient.RegisterPatientDetails(details);
+            if (userDetails)
+            {
+
+                this.TempData["SucessAlert"] = "1";
+            }
+            else
+            {
+                this.TempData["SucessAlert"] = "0";
+            }
+
+            return RedirectToAction("Index", "Home", new
+            {
+                Area = "",
+                message = this.TempData["SucessAlert"]
+            });
         }
     }
 }
