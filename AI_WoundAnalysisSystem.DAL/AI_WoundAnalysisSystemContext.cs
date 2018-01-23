@@ -19,7 +19,9 @@ namespace AI_WoundAnalysisSystem.DAL
 
         public DbSet<Users> Users { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
-
+        public DbSet<Wound> Wound { get; set; }
+        public DbSet<WoundTypes> WoundType { get; set; }
+        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -32,6 +34,8 @@ namespace AI_WoundAnalysisSystem.DAL
 
             modelBuilder.Entity<Users>();
             modelBuilder.Entity<UserRole>();
-        }
+            modelBuilder.Entity<Wound>();
+            modelBuilder.Entity<WoundTypes>();
+    }
     }
 }

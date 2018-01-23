@@ -7,11 +7,8 @@ using AI_WoundAnalysisSystem.DTO;
 using AI_WoundAnalysisSystem.DTO.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.IO;
 using System.Linq;
-using System.Web;
 
 namespace AI_WoundAnalysisSystem.BLL.BusinessObject
 {
@@ -341,7 +338,7 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
 
                 obj.Username = obj.EmailAddress;
                 obj.Password = "ptnt";
-                this.SendMailToUser(obj,operation);
+                this.SendMailToUser(obj, operation);
                 this.unitOfWork.UsersRepository.Update(obj);
                 this.unitOfWork.Save();
                 return true;
@@ -381,12 +378,37 @@ namespace AI_WoundAnalysisSystem.BLL.BusinessObject
 
                 bodyMessage = "Hi " + userModel.LastName + " " + userModel.FirstName + ","
            + "<br/><br/>"
-           +"Your request is rejected because of lack of document proof that you have uploaded during registration."
+           + "Your request is rejected because of lack of document proof that you have uploaded during registration."
            + "<br/>";
-           
+
             }
 
             bool mailSend = objCommon.SendEmailNotification(subject, bodyMessage, userModel.EmailAddress);
+        }
+
+
+        public bool SavePatientWoundDetails(Wound details)
+        {
+            try
+            {
+                Wound obj = new Wound();
+                obj.UserID = details.UserID;
+                obj.EdgeDetectedImage = details.EdgeDetectedImage;
+                obj.OriginalImage = details.OriginalImage;
+                obj.SecondImage = details.SecondImage;
+                obj.SufferingFrom = details.SufferingFrom;
+                obj.Threshold = details.Threshold;
+                obj.WoundDetails = details.WoundDetails;
+                //obj.Woundtype = 2;
+                this.unitOfWork.WoundRepository.Insert(obj);
+                this.unitOfWork.Save();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
         }
 
         ///// <summary>

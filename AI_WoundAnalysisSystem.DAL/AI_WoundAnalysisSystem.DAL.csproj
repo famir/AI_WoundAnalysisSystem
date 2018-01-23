@@ -68,6 +68,10 @@
     <Compile Include="Migrations\201801202138442_addProfilePAth.Designer.cs">
       <DependentUpon>201801202138442_addProfilePAth.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801221141060_woundTbl.cs" />
+    <Compile Include="Migrations\201801221141060_woundTbl.Designer.cs">
+      <DependentUpon>201801221141060_woundTbl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IRepository.cs" />
@@ -92,6 +96,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801202138442_addProfilePAth.resx">
       <DependentUpon>201801202138442_addProfilePAth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801221141060_woundTbl.resx">
+      <DependentUpon>201801221141060_woundTbl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
