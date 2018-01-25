@@ -271,20 +271,8 @@
 
                     var xhr = new XMLHttpRequest();
                     xhr.addEventListener("load", function (e) {
-                        var result = $.parseJSON(xhr.response);
-                        if (!result.IsError) {
-                            $("#load_image").hide();
-                            $("#employ_image img").attr('src', '/EmployeeImages/' + result.message + '');
-                            $('.selected_image').val('');
-                            $(".change_image_holder").removeClass('display');
-                            $(".change_image_holder").hide();
-                            $("#load_image").hide();
-                            alert("Image successfully changed");
-
-                        }
-                        else {
-                            window.location.href = "/Home/login";
-                        }
+                        alert("Photo changed successfully!");
+                        
                     });
                     xhr.addEventListener("error", function (e) {
                         Alert("Ups! May be connection problem");

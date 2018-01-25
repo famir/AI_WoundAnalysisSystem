@@ -243,13 +243,13 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
                 int userId = Int32.Parse(this.Session["UserId"].ToString());
 
                 var userDetails=  this._managePatient.SavePatientPhoto(userId, newImageName);
-                response = userDetails.ToString();
+                response = path;
             }
             else
             {
                 response = "-1"; 
             } 
-            return Json(Response);
+            return Json(Response, JsonRequestBehavior.AllowGet);
         }
         public ActionResult AddWound(Wound model)
         {
