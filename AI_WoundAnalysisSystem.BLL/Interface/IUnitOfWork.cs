@@ -15,6 +15,10 @@ namespace AI_WoundAnalysisSystem.BLL.Interface
         /// </summary>
         IRepository<Users> UsersRepository { get; }
 
+        /// <summary>
+        /// Gets WoundRepository details repository
+        /// </summary>
+        IRepository<Wound> WoundRepository { get; }
 
         /// <summary>
         /// Gets Zeiterfassung details repository

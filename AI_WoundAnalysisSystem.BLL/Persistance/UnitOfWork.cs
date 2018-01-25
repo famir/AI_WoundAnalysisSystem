@@ -25,9 +25,9 @@ namespace AI_WoundAnalysisSystem.BLL.Persistance
         private IRepository<Users> usersRepository;
 
         /// <summary>
-        /// the Zeiterfassung repository
+        /// the wound repository
         /// </summary>
-        //private IRepository<Zeiterfassung> zeiterfassungRepository;
+        private IRepository<Wound> woundRepository;
 
         #endregion
 
@@ -55,21 +55,20 @@ namespace AI_WoundAnalysisSystem.BLL.Persistance
         }
 
         /// <summary>
-        /// Gets Zeiterfassung details repository
+        /// Gets WoundRepository details repository
         /// </summary>
-        //public IRepository<Zeiterfassung> ZeiterfassungRepository
-        //{
-        //    get
-        //    {
-        //        if (this.zeiterfassungRepository == null)
-        //        {
-        //            this.zeiterfassungRepository = new Repository<Zeiterfassung>(this.context);
-        //        }
+        public IRepository<Wound> WoundRepository
+        {
+            get
+            {
+                if (this.woundRepository == null)
+                {
+                    this.woundRepository = new Repository<Wound>(this.context);
+                }
 
-        //        return this.zeiterfassungRepository;
-        //    }
-        //}888888888888888888888888888888888888
-
+                return this.woundRepository;
+            }
+        }
         #endregion
 
         /// <summary>

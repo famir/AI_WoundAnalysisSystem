@@ -64,6 +64,7 @@
     <Compile Include="ViewModel\UserLoginVM.cs" />
     <Compile Include="ViewModel\UserVM.cs" />
     <Compile Include="Wound.cs" />
+    <Compile Include="WoundTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

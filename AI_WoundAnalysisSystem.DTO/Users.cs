@@ -98,17 +98,6 @@ namespace AI_WoundAnalysisSystem.DTO
         [ForeignKey("UserRole")]
         public int UserRoleID { get; set; }
 
-        //public string BloodGroup { get; set; }
-        ///// <summary>
-        ///// Gets or sets the Buchungs nummer 
-        ///// </summary>
-        //public string Buchungsnummer { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the Stundenanzahl 
-        ///// </summary>
-        //public int? Stundenanzahl { get; set; }
-
         /// <summary>
         /// Gets or sets the User Role
         /// </summary>

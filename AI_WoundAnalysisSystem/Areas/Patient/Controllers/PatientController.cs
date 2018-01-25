@@ -18,7 +18,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
         /// manage Employee
         /// </summary>
         private readonly IManagePatient _managePatient;
-       
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PatientController"/> class.
         /// </summary>
@@ -61,7 +61,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
                 case "tabProfile":
                     {
                         Users patientDetails = this._managePatient.GetPatientDetails(Int32.Parse(this.Session["UserId"].ToString()));
-                        return this.PartialView("Profile",patientDetails);
+                        return this.PartialView("Profile", patientDetails);
                     }
 
                 case "tabTimeline":
@@ -126,7 +126,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
             }
 
         }
-        
+
         /// <summary>
         /// Save Patient Details
         /// </summary>
@@ -135,7 +135,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
         [HttpPost]
         public ActionResult SavePatientDetails(PatientVM details)
         {
-            var returnResult ="";
+            var returnResult = "";
             int? result = -1;
 
             if (details != null)
@@ -143,23 +143,23 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
 
                 var userDetails = this._managePatient.SavePatientDetails(details);
 
-          
-                        if (userDetails != null)
-                        {
-                            if (details.UserID == 0)
-                            {
-                                this.TempData["SucessAlert"] = "1";
-                            }
-                            else if (details.UserID > 0)
-                            {
-                                this.TempData["SucessAlert"] = "2";
-                            }
-                        }
-                        else
-                        {
-                            this.TempData["SucessAlert"] = "0";
-                        }
-            
+
+                if (userDetails != null)
+                {
+                    if (details.UserID == 0)
+                    {
+                        this.TempData["SucessAlert"] = "1";
+                    }
+                    else if (details.UserID > 0)
+                    {
+                        this.TempData["SucessAlert"] = "2";
+                    }
+                }
+                else
+                {
+                    this.TempData["SucessAlert"] = "0";
+                }
+
 
 
 
@@ -173,7 +173,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
                     {
                         return this.RedirectToAction("Index", "Patient", new { area = "Patient", tab = "PatientList" });
                     }
-                } 
+                }
             }
             return this.RedirectToAction("Index", "Operator", new { area = "Operator", tab = "Dashboard" });
         }
@@ -242,23 +242,25 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
 
                 int userId = Int32.Parse(this.Session["UserId"].ToString());
 
-                var userDetails=  this._managePatient.SavePatientPhoto(userId, newImageName);
-                response = path;
+                var userDetails = this._managePatient.SavePatientPhoto(userId, newImageName);
+                response = userDetails.ToString();
             }
             else
             {
-                response = "-1"; 
-            } 
-            return Json(Response, JsonRequestBehavior.AllowGet);
+                response = "-1";
+            }
+            return Json(Response);
         }
         public ActionResult AddWound(Wound model)
         {
             var response = "";
-            if (this.Session["UserRoleCode"] != null)
+            if (this.Session["UserID"] != null)
             {
-                // Wound wound = this._managePatient.SavePatientPhoto(userId, newImageName); 
-                 
-                AddWoundImage(model.OriginalImage,"original",1);
+                model.UserID = Convert.ToInt32(this.Session["UserID"]);
+
+                Wound wound = this._managePatient.SavePatientWoundDetails(model);
+
+                AddWoundImage(model.OriginalImage, "original", 1);
                 AddWoundImage(model.SecondImage, "second", 1);
                 AddWoundImage(model.EdgeDetectedImage, "edge", 1);
 
@@ -273,7 +275,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
         public void AddWoundImage(string imageData, string type, int woundId)
         {
             string path = "";
-              switch (type)
+            switch (type)
             {
                 case "original":
                     path = HttpContext.Server.MapPath("~//Images//PatientWoundImage////OriginalWoundImage//" + woundId);
@@ -286,7 +288,7 @@ namespace AI_WoundAnalysisSystem.Areas.Patient.Controllers
                     break;
             }
             string fileNameWitPath = path + DateTime.Now.ToString().Replace("/", "-").Replace(" ", "- ").Replace(":", "") + ".png";
-            
+
             using (FileStream fs = new FileStream(fileNameWitPath, FileMode.Create))
             {
                 using (BinaryWriter bw = new BinaryWriter(fs))
